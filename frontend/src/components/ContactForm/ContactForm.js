@@ -1,27 +1,27 @@
 import React from 'react';
 import './ContactForm.scss';
-import icon from '../../assets/banner/icons/Calling.png';
+import icon from '../../assets/banner/icons/mail.png';
 
 const ContactForm = () => {
     return (
         <form>
             <div className="row">
                 <div className="col-lg-6">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="email" class="form-control" placeholder="Enter your name..." />
+                    <div className="form-group">
+                        <label>Your Name</label>
+                        <input type="email" className="form-control" placeholder="Enter your name..." />
                     </div>
                 </div>
                 <div className="col-lg-6">
-                    <div class="form-group">
-                        <label>E-mail Address</label>
-                        <input type="email" class="form-control" placeholder="Enter email address..." />
+                    <div className="form-group">
+                        <label> Your E-mail Address</label>
+                        <input type="email" className="form-control" placeholder="Enter email address..." />
                     </div>
                 </div>
-                <div className="col-lg-6">
-                    <div class="form-group">
+                {/* <div className="col-lg-6">
+                    <div className="form-group">
                         <label>Service</label>
-                        <select class="form-control">
+                        <select className="form-control">
                             <option>Teeth Whitening</option>
                             <option>Teeth Whitening</option>
                             <option>Teeth Whitening</option>
@@ -30,25 +30,25 @@ const ContactForm = () => {
                     </div>
                 </div>
                 <div className="col-lg-6">
-                    <div class="form-group">
+                    <div className="form-group">
                         <label>Department</label>
-                        <select class="form-control">
+                        <select className="form-control">
                             <option>Select Department</option>
                             <option>Select Department</option>
                             <option>Select Department</option>
                             <option>Select Department</option>
                         </select>
                     </div>
-                </div>
+                </div> */}
                 <div className="col-lg-12">
-                    <div class="form-group">
+                    <div className="form-group">
                         <label for="exampleFormControlTextarea1">Messages</label>
-                        <textarea class="form-control" placeholder='Enter your messages...' rows="3"></textarea>
+                        <textarea className="form-control" placeholder='Enter your messages...' rows="3"></textarea>
                     </div>
                 </div>
 
                 <div className="col-lg-6">
-                    <button type="submit" class="btn appointment-btn">Book an appointment</button>
+                    <button type="submit" className="btn appointment-btn">Submit</button>
                 </div>
                 <div className="col-lg-6">
                     <div className="appointment-call">
@@ -56,8 +56,9 @@ const ContactForm = () => {
                             <img src={icon} alt="icon" />
                         </div>
                         <div className='call-text'>
-                            <p>Dental 24H Emergency</p>
-                            <h6>03 482 394 123</h6>
+                            <p>Typical Response</p>
+                            <p>~ 48 Hours</p>
+                            <h7>admin@wavlang.com</h7>
                         </div>
                     </div>
                 </div>

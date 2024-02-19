@@ -12,7 +12,7 @@ const Contactus = () => {
                 <Navbar />
                 <SectionTitle 
                     title="Contact Us"
-                    description="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
+                    description="Please write a feedback or any questions related to our transcription service. Your message will be sent to the admin email."
                 />
             </section>
             <section className='contact-form-area' data-aos="fade-up" data-aos-duration="2000">

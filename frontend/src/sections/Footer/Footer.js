@@ -11,7 +11,7 @@ const Footer = () => {
 
     const footerMenu = [
         {
-            'name' : 'Transscribe',
+            'name' : 'Transcribe',
             'link' : '/transcribe'
         },
         {
