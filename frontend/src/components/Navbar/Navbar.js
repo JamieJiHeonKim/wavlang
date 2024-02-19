@@ -22,10 +22,10 @@ const Navbar = () => {
             name: 'Pricing',
             path: '/pricing',
         },
-        {
-            name: 'About Us',
-            path: '/about',
-        },
+        // {
+        //     name: 'About Us',
+        //     path: '/about',
+        // },
         {
             name: 'Contact Us',
             path: '/contact',
@@ -49,7 +49,7 @@ const Navbar = () => {
                             <ul className="navbar-nav m-auto mb-2 mb-lg-0">
                                { 
                                 navbarItems.map (navSingle =>
-                                    <li className="nav-item">
+                                    <li className="nav-item" key={navSingle.id}>
                                         <Link className="nav-link" to={navSingle.path}>{navSingle.name}</Link>
                                     </li>
                                     ) 

@@ -42,7 +42,7 @@ const ContactForm = () => {
                 </div> */}
                 <div className="col-lg-12">
                     <div className="form-group">
-                        <label for="exampleFormControlTextarea1">Messages</label>
+                        <label htmlFor="exampleFormControlTextarea1">Messages</label>
                         <textarea className="form-control" placeholder='Enter your messages...' rows="3"></textarea>
                     </div>
                 </div>
@@ -58,7 +58,7 @@ const ContactForm = () => {
                         <div className='call-text'>
                             <p>Typical Response</p>
                             <p>~ 48 Hours</p>
-                            <h7>admin@wavlang.com</h7>
+                            <h5>admin@wavlang.com</h5>
                         </div>
                     </div>
                 </div>

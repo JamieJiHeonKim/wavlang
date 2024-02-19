@@ -16,6 +16,7 @@ function TranscribePage() {
     const [keyPoints, setKeyPoints] = useState(null);
     const [analysisLoaded, setAnalysisLoaded] = useState(true);
     const [topic, setTopic] = useState(null);
+    const [confirmation, setConfirmation] = useState(false);
 
     // props DropFileInput
     const onFileChange = (file) => {
@@ -30,9 +31,23 @@ function TranscribePage() {
         setAnalysisType(analysisType);
         console.log(analysisType);
     }
+
+    const handleTranscribeButton = (e) => {
+        e.preventDefault();
+        if(file) {
+            if (window.confirm('If you are aware of the pricing and would like to proceed further, please click OK')) {
+                setConfirmation(true);
+            } else {
+                setConfirmation(false);
+            }
+        } else {
+            setConfirmation(true);
+        }
+    }
     
     useEffect(() => {
-    }, [file]);
+        setConfirmation(false);
+    }, [file, confirmation]);
     
     return (
         <section className='transcribe-section' >
@@ -56,7 +71,10 @@ function TranscribePage() {
                             />
                         </div>
                     { fileUploaded ? <AudioPlayer file={URL.createObjectURL(file)} fileName={file.name} /> : <></> }
-                    { fileUploaded ? <Transcribe file={file} analysisType={analysisType} topic={topic} /> : <Transcribe /> }
+                    <button type="submit" className="btn appointment-btn" onClick={handleTranscribeButton}>
+                        Transcribe
+                    </button>
+                    { confirmation ? <Transcribe file={file} analysisType={analysisType} topic={topic} /> : <Transcribe /> }
                     </main>
                 </div>
             </div>

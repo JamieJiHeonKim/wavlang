@@ -7,6 +7,7 @@ import BlogsPage from './pages/BlogsPage';
 import SingleBlog from './pages/SingleBlog/SingleBlog';
 import Contactus from './pages/Contact/Contactus';
 import Transcribe from './pages/Transcribe/TranscribeMainPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -15,9 +16,10 @@ function App() {
       <Route path="/transcribe" element={<Transcribe />} />
       <Route path="/features" element={<BlogsPage />} />
       <Route path="/pricing" element={<Services />} />
-      <Route path="/about" element={<About />} />
+      {/* <Route path="/about" element={<About />} /> */}
       <Route path="contact" element={<Contactus />} />
       <Route path="/login" element={<Contactus />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }

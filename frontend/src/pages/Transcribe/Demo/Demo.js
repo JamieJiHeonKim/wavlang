@@ -20,6 +20,7 @@ function Demo() {
     const [keyPoints, setKeyPoints] = useState(null);
     const [analysisLoaded, setAnalysisLoaded] = useState(true);
     const [topic, setTopic] = useState(null);
+    const [transcribeState, setTranscribeState] = useState(false);
 
     // props DropFileInput
     const onFileChange = (file) => {
@@ -35,10 +36,13 @@ function Demo() {
         console.log(analysisType);
     }
 
+    const handleTranscribeButton = (e) => {
+        e.preventDefault();
+        setTranscribeState(true);
+    }
+
     const handleScript = () => {
-        console.log('topic:', topic);
-        console.log('analysisType:', analysisType);
-        if(analysisType === 'Abstract Summary') {
+        if(analysisType === 'Abstract Summary' && transcribeState === true) {
             return (
                 <>
                     <div className='text-body'>
@@ -50,7 +54,7 @@ function Demo() {
                     </div>
                 </>
             )
-        } else if(analysisType === 'Key Points') {
+        } else if(analysisType === 'Key Points' && transcribeState === true) {
             return (
                 <>
                     <div className='text-body'>
@@ -69,7 +73,7 @@ function Demo() {
                     </div>
                 </>
             )
-        } else if(analysisType === 'Action Items') {
+        } else if(analysisType === 'Action Items' && transcribeState === true) {
             return (
                 <>
                     <div className='text-body'>
@@ -92,7 +96,7 @@ function Demo() {
                     </div>
                 </>
             )
-        } else {
+        } else if (analysisType === 'Sentiment Analysis' && transcribeState === true) {
             return (
                 <>
                     <div className='text-body'>
@@ -154,6 +158,7 @@ function Demo() {
     }
     
     useEffect(() => {
+        setTranscribeState(false);
     }, [analysisType]);
     
     return (
@@ -185,13 +190,15 @@ function Demo() {
                                 <img src={trashBinImg} className='trash-bin' />
                             </span>
                         </div>
-                        <h8>
+                        <h6>
                             Stanford University. (2008, March 7). Steve Jobs' 2005 Stanford Commencement Address. YouTube. https://www.youtube.com/watch?v=UF8uR6Z6KLc
-                        </h8>
+                        </h6>
                         </div>
                         <AudioPlayer file={AudioSample} fileName="Steve Jobs' 2005 Stanford Commencement Address.mp3" />
-                        <br />
-                        {handleScript()}
+                        <button type="submit" className="btn appointment-btn" onClick={handleTranscribeButton}>
+                            Transcribe
+                        </button>
+                        {transcribeState ? handleScript() : <></>}
                     </main>
                 </div>
             </div>

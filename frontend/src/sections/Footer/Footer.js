@@ -11,6 +11,10 @@ const Footer = () => {
 
     const footerMenu = [
         {
+            'name' : 'Home',
+            'link' : '/'
+        },
+        {
             'name' : 'Transcribe',
             'link' : '/transcribe'
         },
@@ -74,7 +78,7 @@ const Footer = () => {
                             <p>Quick Links</p>
                             <ul>
                                 {
-                                    footerMenu.map(singleMenu => <li><Link to="/">{singleMenu.name}</Link></li>)
+                                    footerMenu.map(singleMenu => <li><Link to={singleMenu.link}>{singleMenu.name}</Link></li>)
                                 }
                             </ul>
                         </div>
