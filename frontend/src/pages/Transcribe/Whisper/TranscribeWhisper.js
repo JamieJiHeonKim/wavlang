@@ -24,6 +24,8 @@ function TranscribeWhisper({file, topic, analysisType}) {
         dangerouslyAllowBrowser: true
     });
 
+    // Task 3: Allow user to select what language to be transcribed, as well as the analysis
+    
     const fetchAudioFile = async () => {
         if (!file) {
             return;

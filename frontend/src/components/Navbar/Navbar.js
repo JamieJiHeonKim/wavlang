@@ -15,10 +15,6 @@ const Navbar = () => {
             path: '/transcribe'
         },
         {
-            name: 'Features',
-            path: '/features',
-        },
-        {
             name: 'Pricing',
             path: '/pricing',
         },
@@ -26,6 +22,10 @@ const Navbar = () => {
         //     name: 'About Us',
         //     path: '/about',
         // },
+        {
+            name: 'Updates',
+            path: '/updates',
+        },
         {
             name: 'Contact Us',
             path: '/contact',

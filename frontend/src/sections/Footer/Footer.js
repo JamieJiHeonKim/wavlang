@@ -19,12 +19,12 @@ const Footer = () => {
             'link' : '/transcribe'
         },
         {
-            'name' : 'Features',
-            'link' : '/features'
-        },
-        {
             'name' : 'Pricing',
             'link' : '/pricing'
+        },
+        {
+            'name' : 'Updates',
+            'link' : '/updates'
         },
         {
             'name' : 'About',

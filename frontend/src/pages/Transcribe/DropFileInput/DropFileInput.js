@@ -15,6 +15,8 @@ const DropFileInput = props => {
     const onDragLeave = () => wrapperRef.current.classList.remove('dragover');
     const onDrop = () => wrapperRef.current.classList.remove('dragover');
 
+    // Task 1: Make sure the file size doesn't go over 25MB. If so, split the length.
+
     const onChangeFile = (e) => {
         const newFile = e.target.files[0]
         if(newFile) {
