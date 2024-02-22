@@ -33,6 +33,7 @@ footer {
     }
 
     .footer-link {
+        text-align: left;
         p {
             text-transform: uppercase;
         }
@@ -96,7 +97,6 @@ footer {
 
         .contact-text {
             margin-left: 30px;
-
             p {
                 font-size: 12px;
                 margin-bottom: 5px;
@@ -137,6 +137,10 @@ footer {
             }
         }
     }
+}
+
+p {
+    text-align: left;
 }
 
 // Mobile Responsive

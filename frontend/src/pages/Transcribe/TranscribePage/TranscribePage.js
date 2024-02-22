@@ -5,6 +5,8 @@ import Transcribe from '../Whisper/TranscribeWhisper';
 // import Transcribe from './assemblyAI/TranscribeAssembly';
 import DropFileInput from '../DropFileInput/DropFileInput';
 import Analysis from '../Analysis/Analysis';
+import Alert from 'react-bootstrap/Alert';
+
 
 function TranscribePage() {
     const [file, setFile] = useState(null);
@@ -44,6 +46,24 @@ function TranscribePage() {
             setConfirmation(true);
         }
     }
+
+    const handleOverSizeFile = (audioFile) => {
+        if(audioFile.size > 25000000) {
+            return(
+                <Alert key={'danger'} variant={'danger'}>
+                    The uploaded file size exceeded Whisper AI's max file size (25MB).
+                    Please split the audio file into shorter length.
+                </Alert>
+            )
+        }
+        else {
+            return(
+                <button type="submit" className="btn appointment-btn" onClick={handleTranscribeButton}>
+                    Transcribe
+                </button>
+            )
+        }
+    }
     
     useEffect(() => {
         setConfirmation(false);
@@ -71,9 +91,10 @@ function TranscribePage() {
                             />
                         </div>
                     { fileUploaded ? <AudioPlayer file={URL.createObjectURL(file)} fileName={file.name} /> : <></> }
-                    <button type="submit" className="btn appointment-btn" onClick={handleTranscribeButton}>
+                    {/* <button type="submit" className="btn appointment-btn" onClick={handleTranscribeButton}>
                         Transcribe
-                    </button>
+                    </button> */}
+                    { file ? handleOverSizeFile(file) : null}
                     { confirmation ? <Transcribe file={file} analysisType={analysisType} topic={topic} /> : <Transcribe /> }
                     </main>
                 </div>

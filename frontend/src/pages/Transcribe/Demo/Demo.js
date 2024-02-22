@@ -52,6 +52,10 @@ function Demo() {
                     <div className='text-body'>
                         The speaker shares three personal stories to impart wisdom to university graduates. The first story emphasizes the importance of trusting one's intuition and the serendipitous value of life's experiences, illustrated by how a calligraphy class influenced the design of the Macintosh computer. The second story revolves around love and loss, detailing the speaker's journey from being fired from Apple, the company he co-founded, to starting over and achieving success with new ventures like Pixar and Next. This narrative underscores the importance of pursuing work one loves and the resilience required to overcome setbacks. The third story confronts the reality of death, using the speaker's own cancer scare to highlight the urgency of living authentically and the motivational power of mortality in focusing on what truly matters. Collectively, these stories encourage embracing uncertainty, following passion, and living each day with purpose.
                     </div>
+                    <div className="container">
+                        <br /><br />
+                        <p>Please visit our pricing page for pricing details</p>
+                    </div>
                 </>
             )
         } else if(analysisType === 'Key Points' && transcribeState === true) {
@@ -70,6 +74,10 @@ function Demo() {
                     - The third story is about death, with the speaker reflecting on his cancer diagnosis and the perspective it gave him on life.<br/>
                     - The speaker emphasizes the importance of doing what you love and the urgency of living as if each day were your last.<br/>
                     - The speech encourages graduates to follow their hearts, seek out work they love, and embrace the inevitability of death as a motivator to live fully.
+                    </div>
+                    <div className="container">
+                        <br /><br />
+                        <p>Please visit our pricing page for pricing details</p>
                     </div>
                 </>
             )
@@ -93,6 +101,10 @@ function Demo() {
                     - Avoid the trap of thinking you have something to lose; follow your heart.<br/>
                     <br/>
                     These are not direct action items but rather guiding principles that Steve Jobs shared with the graduates to inspire them in their future endeavors.<br/>
+                    </div>
+                    <div className="container">
+                        <br /><br />
+                        <p>Please visit our pricing page for pricing details</p>
                     </div>
                 </>
             )
@@ -151,6 +163,10 @@ function Demo() {
                     - "Death is the destination we all share." (Fact, universality)<br/>
                     <br/>
                     Overall, the text navigates through the speaker's life challenges and triumphs, imparting wisdom and sharing personal reflections that evoke a range of emotions. The positive sentiments are often tied to lessons learned, personal growth, and the joy of pursuing one's passions, while the negative sentiments are linked to obstacles, failures, and the reality of mortality. Neutral sentiments provide context and factual information that frames the speaker's experiences.<br/>
+                    </div>
+                    <div className="container">
+                        <br /><br />
+                        <p>Please visit our pricing page for pricing details</p>
                     </div>
                 </>
             )

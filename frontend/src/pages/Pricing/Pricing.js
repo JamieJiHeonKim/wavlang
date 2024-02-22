@@ -36,7 +36,7 @@ const Pricing = () => {
                                     </div>
                                     <ul className="pricingtable-features">
                                         <li>Cheapest for Short Audio Files</li>
-                                        <li>Flexibility</li>
+                                        <li>Great Flexibility</li>
                                         <li>Cost-Effective</li>
                                         <li>No Commitment</li>
                                         <li>Perfect for One-time Users</li>
