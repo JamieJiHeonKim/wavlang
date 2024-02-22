@@ -14,6 +14,11 @@ const fileUpload = require('express-fileupload');
 
 require('dotenv').config()
 
+const corsOptions ={
+    origin:'*', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200,
+};
 const apiKey = process.env.REACT_APP_ASSEMBLY_API_KEY;
 const baseUrl = 'https://api.assemblyai.com/v2';
 
@@ -23,7 +28,7 @@ const headers = {
 
 const app = express();
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(fileUpload());
 
@@ -197,6 +202,45 @@ app.post('/api/transcribe_file', upload.single('file'), async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Error transcribing audio' })
         console.log(error);
+    }
+});
+
+app.post('/api/transcribe_whisperai', upload.single('file'), async (req, res) => {
+    const model = req.body.model;
+    const file = req.body.file;
+    const response_format = req.body.response_format;
+    const initial_prompt = req.body.initial_prompt;
+    const verbose = req.body.verbose;
+
+    try{
+        const formData = new FormData();
+        formData.append("model", model);
+        formData.append("file", file);
+        formData.append("response_format", response_format);
+        formData.append("initial_prompt", initial_prompt);
+        formData.append("verbose", verbose);
+        // formData.append("language", language);
+        setScriptLoaded(false);
+        await axios
+            .post("https://api.openai.com/v1/audio/transcriptions", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
+                },
+            })
+            .then((res) => {
+                console.log(res.data);
+                // setResponse(res.data);
+                // setAnalysisLoaded(false);
+                // setScriptLoaded(true);
+                // getAnalysisType(res, topic);
+            })
+            .catch((err) => {
+                console.log(err)
+                // setScriptLoaded(true);
+            });
+    } catch (error) {
+        throw error;
     }
 });
 
