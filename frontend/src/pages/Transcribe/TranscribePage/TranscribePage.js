@@ -67,6 +67,14 @@ function TranscribePage() {
     
     useEffect(() => {
         setConfirmation(false);
+        const unloadCallback = (event) => {
+            event.preventDefault();
+            event.returnValue = "";
+            return "";
+          };
+        
+          window.addEventListener("beforeunload", unloadCallback);
+          return () => window.removeEventListener("beforeunload", unloadCallback);
     }, [file, confirmation]);
     
     return (
