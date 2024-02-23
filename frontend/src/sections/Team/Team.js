@@ -29,7 +29,7 @@ const Team = () => {
 
 
     return (
-        <section className='team-section pt-100' data-aos="fade-up" data-aos-duration="2000">
+        <section className='team-section pt-100' data-aos="fade-up" data-aos-duration="1500">
             <div className="container">
                 <div className="row">
                     <div className="col-lg-7">

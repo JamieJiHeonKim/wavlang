@@ -18,7 +18,7 @@ const Pricing = () => {
                 </div>
                 <br />
                 <br />
-                <div className="pricingtable-row" data-aos="fade-up" data-aos-duration="2000">
+                <div className="pricingtable-row" data-aos="fade-up" data-aos-duration="1500">
                     <div className="row justify-content-center">
                         <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
                             <div className={`${open === "p1" ? "pricingtable-wrapper style-1 m-b30 active" : "pricingtable-wrapper style-1 m-b30"}`} onMouseOver={() => setOpen("p1")}>
@@ -46,7 +46,7 @@ const Pricing = () => {
                                         <li>Business Analysis</li> */}
                                     </ul>
                                     <div className="pricingtable-footer">
-                                        <a href="/pricing-table-2" className="btn btn-primary gradient shadow rounded-xl">Start Now</a>
+                                        <a href="/pricing-table-2" className="btn start-btn">Start Now</a>
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +73,7 @@ const Pricing = () => {
                                         <li>Perfect for Regular Use</li>
                                     </ul>
                                     <div className="pricingtable-footer">
-                                        <a href="/pricing-table-2" className="btn btn-primary gradient shadow rounded-xl">Start Now</a>
+                                        <a href="/pricing-table-2" className="btn start-btn">Start Now</a>
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@ const Pricing = () => {
                                         <li>Perfect for Long-term Use</li>
                                     </ul>
                                     <div className="pricingtable-footer">
-                                        <a href="/pricing-table-2" className="btn btn-primary gradient shadow rounded-xl">Start Now</a>
+                                        <a href="/pricing-table-2" className="btn start-btn" >Start Now</a>
                                     </div>
                                 </div>
                             </div>

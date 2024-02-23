@@ -4,7 +4,7 @@ import SectionTitle from '../../components/SectionTitle/SectionTitle';
 
 const Faq = () => {
     return (
-        <section className='faq-section pt-100 pb-70'  data-aos="fade-up" data-aos-duration="2000">
+        <section className='faq-section pt-100 pb-70'  data-aos="fade-up" data-aos-duration="1500">
             <div className="container">
                 <SectionTitle
                     subTitle="FAQ"

@@ -27,10 +27,6 @@ const Footer = () => {
             'link' : '/updates'
         },
         {
-            'name' : 'About',
-            'link' : '/about'
-        },
-        {
             'name' : 'Contact Us',
             'link' : '/contact'
         }

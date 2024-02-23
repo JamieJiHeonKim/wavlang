@@ -6,7 +6,7 @@ import expertImg from '../../assets/expert.png';
 
 const Expert = () => {
     return (
-        <section className='expert-section' data-aos="fade-up" data-aos-duration="2000">
+        <section className='expert-section' data-aos="fade-up" data-aos-duration="1500">
             <div className="container">
                 <div className="row align-items-center">
                     <div className="col-lg-6 col-md-6">

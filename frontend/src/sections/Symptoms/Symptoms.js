@@ -38,7 +38,7 @@ const Symptoms = () => {
     ]
 
     return (
-        <section className='symptoms-section section-common pt-100 pb-70' data-aos="fade-up" data-aos-duration="2000">
+        <section className='symptoms-section section-common pt-100 pb-70' data-aos="fade-up" data-aos-duration="1500">
             <div className="container">
                 <SectionTitle 
                     subTitle="Symptoms"

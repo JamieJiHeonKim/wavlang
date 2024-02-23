@@ -232,12 +232,12 @@ function TranscribeWhisper({file, topic, analysisType, analysisLanguage}) {
         <div className='transcribe'>
             <br />
             {scriptLoaded ? 
-                <div className='text-body' >
+                <div className='text-body' contentEditable>
                     {response}
                 </div> : 
                 <SpinningCircles className='loadingIcon' fill='#919191' stroke="transparent" strokeOpacity={.2} speed={1.25} />}
             <br />
-            {analysisLoaded ? <div className='text-body' >{keyPoints}</div> : <SpinningCircles className='loadingIcon' fill='#919191' stroke="transparent" strokeOpacity={.2} speed={1.25} />}
+            {analysisLoaded ? <div className='text-body'>{keyPoints}</div> : <SpinningCircles className='loadingIcon' fill='#919191' stroke="transparent" strokeOpacity={.2} speed={1.25} />}
             <br />
         </div>
         

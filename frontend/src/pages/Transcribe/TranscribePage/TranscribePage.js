@@ -339,7 +339,7 @@ function TranscribePage() {
                     Transcription & Analysis
                 </h2>
                 <p>Please Select an Analysis Type & Topic Before Uploading an Audio File</p>
-                <div className='main-page' data-aos="fade-up" data-aos-duration="2000">
+                <div className='main-page' data-aos="fade-up" data-aos-duration="1500">
                     <main>
                         <Analysis 
                             onAnalysisChange={(analysisType) => onAnalysisChange(analysisType)}

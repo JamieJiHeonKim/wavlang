@@ -7,7 +7,7 @@ import pattern from '../../assets/banner/pattern.png'
 
 const AboutBanner = () => {
     return (
-        <section className='about-section' data-aos="fade-up" data-aos-duration="2000">
+        <section className='about-section' data-aos="fade-up" data-aos-duration="1500">
             <div className="d-table">
                 <div className="d-table-cell">
                     <div className="container">

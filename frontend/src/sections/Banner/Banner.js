@@ -19,7 +19,7 @@ const Banner = () => {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-6">
-                                <div className="banner-text" data-aos="fade-up" data-aos-duration="2000">
+                                <div className="banner-text" data-aos="fade-up" data-aos-duration="1500">
                                     <h1>Entrust your smile to professionals</h1>
                                     <p>Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.</p>
 
@@ -42,7 +42,7 @@ const Banner = () => {
                             </div>
 
                             <div className="col-lg-6">
-                                <div className="banner-img-area" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="500">
+                                <div className="banner-img-area" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="500">
                                     <div className="banner-img">
                                         <img src={bannerImg} alt="banner model" />
                                     </div>

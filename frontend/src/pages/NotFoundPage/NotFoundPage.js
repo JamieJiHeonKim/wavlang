@@ -6,7 +6,7 @@ import './NotFoundPage.scss';
 
 function NotFoundPage() {
     return(
-        <div className='content' data-aos="fade-up" data-aos-duration="2000">
+        <div className='content' data-aos="fade-up" data-aos-duration="1500">
             <section className="flex items-center h-full p-16 dark:bg-gray-900 dark:text-gray-100">
                 <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
                     <div className="max-w-md text-center">

@@ -8,14 +8,14 @@ import Footer from '../../sections/Footer/Footer';
 const Contactus = () => {
     return (
         <>
-            <section className='section-bg section-common contact-section'>
-                <Navbar />
-                <SectionTitle 
-                    title="Contact Us"
-                    description="Please write a feedback or any questions related to our transcription service. Your message will be sent to the admin email."
-                />
-            </section>
-            <section className='contact-form-area' data-aos="fade-up" data-aos-duration="2000">
+            <Navbar />
+            <div className='contact-section'>
+                <h2 className='header'>
+                    Contact Us
+                </h2>
+                <p>Please leave a feedback or ask any questions related to our service</p>
+            </div>
+            <section className='contact-form-area' data-aos="fade-up" data-aos-duration="1500">
                 <ContactForm />
             </section>
             <Footer />

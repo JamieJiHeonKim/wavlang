@@ -11,7 +11,7 @@ const ServiceBanner = () => {
                     <div className="container">
                         <div className="row align-items-center">
                             <div className="col-lg-5 col-md-6">
-                                <div className="service-banner-text" data-aos="fade-up" data-aos-duration="2000">
+                                <div className="service-banner-text" data-aos="fade-up" data-aos-duration="1500">
                                     <h2>Pricing</h2>
                                     <p>Root canals have gotten a bad reputation, but us dentists don’t know why! These are the types of treatments that actually make you feel better!</p>
                                     <div className="theme-btn">
@@ -20,7 +20,7 @@ const ServiceBanner = () => {
                                 </div>
                             </div>
                             <div className="col-lg-7 col-md-6">
-                                <div className="service-banner-img" data-aos="fade-up" data-aos-duration="2000">
+                                <div className="service-banner-img" data-aos="fade-up" data-aos-duration="1500">
                                     <img src={serviceBanner} alt="service" />
                                 </div>
                             </div>
