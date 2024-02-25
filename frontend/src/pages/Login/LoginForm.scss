@@ -71,26 +71,26 @@
     border-radius: 0.4rem;
 }
 
-.appointment-btn {
-    background: $color-white;
-    color: $color-black;
-    padding: 14px 20px;
-    text-decoration: none;
-    border-radius: 10px;
-    transition: .3s;
-    // border: 1px solid transparent;
-    border: 1px solid $color-black;
-    font-size: 14px;
-    font-weight: 500;
-    display: inline-block;
-    box-shadow: 0px 7px 29px 0px rgba(100, 100, 111, 0.2);
+// .appointment-btn {
+//     background: $color-white;
+//     color: $color-black;
+//     padding: 14px 20px;
+//     text-decoration: none;
+//     border-radius: 10px;
+//     transition: .3s;
+//     // border: 1px solid transparent;
+//     border: 1px solid $color-black;
+//     font-size: 14px;
+//     font-weight: 500;
+//     display: inline-block;
+//     box-shadow: 0px 7px 29px 0px rgba(100, 100, 111, 0.2);
 
-    &:hover {
-        background: $color-black;
-        color: $color-white;
-        border: 1px solid $color-black;
-    }
-}
+//     &:hover {
+//         background: $color-black;
+//         color: $color-white;
+//         border: 1px solid $color-black;
+//     }
+// }
 
 .has-separator {
     font-size: 0.75rem;
@@ -159,6 +159,45 @@
 .sign-up a {
     color: #3897f0;
     font-weight: bold;
+}
+
+.appointment-btn {
+    background: $color-black;
+    color: $color-white;
+    // border: 1px solid transparent;
+    font-size: 16px;
+    font-weight: 500;
+
+    &:hover {
+        background: $color-white;
+        color: $color-black;
+        border: 1px solid $color-black;
+    }
+}
+
+.forgotpassword-url {
+    font-size: 13px;
+    color: #999999;
+    
+    &:hover {
+        font-size: 13px;
+        color: #858585;
+    }
+}
+
+.signup {
+    font-size: 13px;
+    text-align: center;
+    color: $color-black
+}
+
+.signup-url { 
+    color: #999999;
+
+    &:hover {
+        font-size: 13px;
+        color: #858585;
+    }
 }
 
 /*responsive styling*/

@@ -11,7 +11,7 @@ function TranscribeAssemblyAI({file}) {
         const formData = new FormData();
         formData.append('audioFile', file);
         try {
-            const response = await fetch(`http://localhost:5000/api/transcribe_assemblyai`, {
+            const response = await fetch(`http://localhost:8080/api/transcribe_assemblyai`, {
                 method: 'POST',
                 body: formData
             });

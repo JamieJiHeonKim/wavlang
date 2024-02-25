@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import './TranscribePage.scss';
 import AudioPlayer from '../AudioPlayer';
 import Transcribe from '../Whisper/TranscribeWhisper';
-// import Transcribe from './assemblyAI/TranscribeAssembly';
+// import Transcribe from '../AssemblyAI/TranscribeAssembly';
 import DropFileInput from '../DropFileInput/DropFileInput';
 import Analysis from '../Analysis/Analysis';
 import Alert from 'react-bootstrap/Alert';

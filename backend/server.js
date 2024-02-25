@@ -10,17 +10,17 @@ const ffmpegPath = require('ffmpeg-static');
 const ffmetadata = require('ffmetadata');
 const path = require('path');
 const fileUpload = require('express-fileupload');
+const mongoose = require('mongoose');
 // const fs = require("fs").promises;
 
 require('dotenv').config()
 
-const corsOptions ={
-    origin:'*', 
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200,
-};
 const apiKey = process.env.REACT_APP_ASSEMBLY_API_KEY;
 const baseUrl = 'https://api.assemblyai.com/v2';
+const googleOAuthCliendId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+const googleOAuthClientSecret = process.env.REACT_APP_GOOGLE_CLIENT_SECRET;
+
+const userRoutes = require('./routes/userRoutes');
 
 const headers = {
     authorization: apiKey
@@ -28,7 +28,7 @@ const headers = {
 
 const app = express();
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(fileUpload());
 
@@ -50,9 +50,14 @@ const upload = multer();
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 app.get('/', (req, res) => {
-    res.send('Welcome to the Whisper Text-to-Speech API!');
-    // res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.send('Hello World!')
+})
+
+app.get("/api", (req, res) => {
+    res.json({ message: "Hello from server!" });
 });
+
+app.use('/users', userRoutes);
 
 function getFiles(audioStream, tempFileName, endTime, outputFileName, timeDuration) {
     return new Promise((resolve, reject) => {
@@ -205,37 +210,57 @@ app.post('/api/transcribe_file', upload.single('file'), async (req, res) => {
     }
 });
 
-app.post('/api/transcribe_whisperai', upload.single('file'), async (req, res) => {
-    const model = req.body.model;
-    const file = req.body.file;
-    const response_format = req.body.response_format;
-    const initial_prompt = req.body.initial_prompt;
-    const verbose = req.body.verbose;
+app.post('/api/transcribe_whisperai', async (req, res) => {
+    const model = "whisper-1";
+    const response_format = "text";
+    const initial_prompt = "Hello, welcome to my lecture.\nMy name is Jamie.\nIt is nice to see everyone here today.\n";
+    const verbose = true;
+    // const form_data = {
+    //     'model': model,
+    //     'file': req.body.file,
+    //     'response_format': response_format,
+    //     'initial_prompt': initial_prompt,
+    //     'verbose': verbose
+    // };
+    // const formData = new FormData()
+    // formData.append("model", model);
+    // console.log("hi");
+    // formData.append("file", req.files.file);
+    // formData.append("response_format", response_format);
+    // formData.append("initial_prompt", initial_prompt);
+    // formData.append("verbose", verbose);
+    // console.log('req.files:', req.files);
+    // console.log('req.body:', req.body);
+    
+    const whisper_url = 'https://api.openai.com/v1/audio/transcriptions';
 
     try{
-        const formData = new FormData();
-        formData.append("model", model);
-        formData.append("file", file);
-        formData.append("response_format", response_format);
-        formData.append("initial_prompt", initial_prompt);
-        formData.append("verbose", verbose);
-        // formData.append("language", language);
-        setScriptLoaded(false);
+        console.log('1');
+        // const response = await axios.post(whisper_url, form_data, {
+        //     headers: {
+        //         "Content-Type": "multipart/form-data",
+        //         Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
+        //     },
+        // });
+
         await axios
-            .post("https://api.openai.com/v1/audio/transcriptions", formData, {
+            .post(whisper_url, req.files.file, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
                 },
             })
             .then((res) => {
+                console.log('2');
                 console.log(res.data);
+                return res.json(res.data);
                 // setResponse(res.data);
                 // setAnalysisLoaded(false);
                 // setScriptLoaded(true);
                 // getAnalysisType(res, topic);
             })
             .catch((err) => {
+                console.log('3');
                 console.log(err)
                 // setScriptLoaded(true);
             });
@@ -244,7 +269,50 @@ app.post('/api/transcribe_whisperai', upload.single('file'), async (req, res) =>
     }
 });
 
-const PORT = 5000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.post('/api/auth/google', async (req, res) => {
+    const { code } = req.body;
+    const client_id = googleOAuthCliendId;
+    const client_secret = googleOAuthClientSecret;
+    const redirect_url = 'http://localhost:3000';
+    const grant_type = 'authorization_code';
+
+    fetch('<https://oauth2.googleapis.com/token>', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            code,
+            client_id,
+            client_secret,
+            redirect_url,
+            grand_type,
+        }),
+    })
+    .then(response => response.json())
+    .then(tokens => {
+        res.json(tokens);
+        console.log("google login success yay.")
+    })
+    .catch(error => {
+        console.error('Token exchange error:', error);
+        res.status(500).json({
+            error: 'Internal Server Error'
+        });
+    });
 });
+
+const PORT = process.env.PORT || 8080;
+const MONGOOSE_URL = 'mongodb://localhost:27017/WAVLANG'
+
+mongoose.connect(MONGOOSE_URL, {useNewUrlParser: true})
+.then(() => app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`)
+}))
+.catch(err=> {
+    console.log(err);
+})
+
+// app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`);
+// });

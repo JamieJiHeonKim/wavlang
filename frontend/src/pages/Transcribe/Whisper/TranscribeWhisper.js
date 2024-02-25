@@ -31,32 +31,31 @@ function TranscribeWhisper({file, topic, analysisType, analysisLanguage}) {
         if (!file) {
             return;
         }
+        console.log('file:', file);
         
     //     try{
     //         const formData = new FormData();
-    //         formData.append("model", model);
+    //         // formData.append("model", model);
     //         formData.append("file", file);
-    //         formData.append("response_format", response_format);
-    //         formData.append("initial_prompt", initial_prompt);
-    //         formData.append("verbose", verbose);
+    //         // formData.append("response_format", response_format);
+    //         // formData.append("initial_prompt", initial_prompt);
+    //         // formData.append("verbose", verbose);
     //         // formData.append("language", language);
     //         setScriptLoaded(false);
-    //         const response = await fetch(`http://localhost:5000/api/transcribe_whisperai`, {
-    //                 mode: 'no-cors',
-    //                 credentials: 'include',
+    //         const response = await fetch(`http://localhost:8080/api/transcribe_whisperai`, {
     //                 method: 'POST',
     //                 body: formData
     //             })
-    //             if (response.ok) {
-    //                 console.log(response.data);
-    //                 setResponse(response.data);
-    //                 setAnalysisLoaded(false);
-    //                 setScriptLoaded(true);
-    //                 getAnalysisType(response, topic);
-    //             } else {
-    //                 console.log(response.error)
-    //                 setScriptLoaded(true);
-    //             };
+    //         if (response.ok) {
+    //             console.log(response.data);
+    //             setResponse(response.data);
+    //             setAnalysisLoaded(false);
+    //             setScriptLoaded(true);
+    //             getAnalysisType(response, topic);
+    //         } else {
+    //             console.error(response.error)
+    //             setScriptLoaded(true);
+    //         };
     //     } catch (error) {
     //         throw error;
     //     }
