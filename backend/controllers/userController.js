@@ -3,9 +3,23 @@ const jwt = require('jsonwebtoken');
 const axios = require('axios');
 const config = require('config');
 
-const User = require('../models/user');
+const User = require('../models/UserModel');
 
 const signinController = async(req, res) => {
+    const {firstName, lastName, email, password} = req.body;
+
+    try {
+        const user = await User.create({firstName, lastName, email, password})
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(400).json({
+            message: error.message
+        });
+    };
+    
+}
+
+const googleSigninController = async(req, res) => {
     if (req.body.googleAccessToken) {
         // oauth
         axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
@@ -69,7 +83,7 @@ const signinController = async(req, res) => {
     }
 }
 
-const signupController = async(req, res) => {
+const googleSignupController = async(req, res) => {
     if (req.body.googleAccessToken) {
         // google oauth
         axios.getAdapter('https://www.googleapis.com/oauth2/v3/userinfo', {
@@ -130,6 +144,7 @@ const signupController = async(req, res) => {
 }
 
 module.exports = {
-    signinController,
-    signupController
+    googleSigninController,
+    googleSignupController,
+    signinController
 }

@@ -7,7 +7,7 @@
 //     overflow: hidden;
 // }
 
-.login-background {
+.signup-background {
     font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -18,10 +18,15 @@
     // background: url('../assets/login-background10.jpg') no-repeat;
     background-size: cover;
     background-position: center;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    overflow: hidden;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 
 .wrapper {

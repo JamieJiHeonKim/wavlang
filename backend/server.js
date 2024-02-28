@@ -11,14 +11,17 @@ const ffmetadata = require('ffmetadata');
 const path = require('path');
 const fileUpload = require('express-fileupload');
 const mongoose = require('mongoose');
+const passport = require("passport");
+const OAuth2Strategy = require("passport-google-oauth2").Strategy;
+const userdb = require('./models/UserModel');
 // const fs = require("fs").promises;
 
 require('dotenv').config()
 
 const apiKey = process.env.REACT_APP_ASSEMBLY_API_KEY;
 const baseUrl = 'https://api.assemblyai.com/v2';
-const googleOAuthCliendId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-const googleOAuthClientSecret = process.env.REACT_APP_GOOGLE_CLIENT_SECRET;
+const googleOAuthCliendId = process.env.GOOGLE_CLIENT_ID;
+const googleOAuthClientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
 const userRoutes = require('./routes/userRoutes');
 
@@ -31,6 +34,31 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(fileUpload());
+// app.use(session({
+//     secret: "4872bjzxf62xzjf71234z",
+//     resave: false,
+//     saveUninitialized: true
+// }));
+// app.use(passport.initialize());
+// app.use(passport.session());
+
+// passport.use(
+//     new OAuth2Strategy({
+//         clientID: googleOAuthCliendId,
+//         clientSecret: googleOAuthClientSecret,
+//         callbackURL: "/auth/google/callback",
+//         scope: ["profile", "email"]
+//     },
+//     async(accessToken, refreshToken, profile, done) => {
+//         try {
+//             let user = await userdb.findOne({
+//                 googleId:
+//             })
+//         } catch (error) {
+//             return done(error, null)
+//         }
+//     })
+// )
 
 const bufferToStream = (buffer) => {
     return Readable.from(buffer);
@@ -57,7 +85,11 @@ app.get("/api", (req, res) => {
     res.json({ message: "Hello from server!" });
 });
 
-app.use('/users', userRoutes);
+app.use('/api/new_user', userRoutes);
+app.use((req, res, next) => {
+    console.log(req.path, req.method);
+    next();
+});
 
 function getFiles(audioStream, tempFileName, endTime, outputFileName, timeDuration) {
     return new Promise((resolve, reject) => {
@@ -305,13 +337,25 @@ app.post('/api/auth/google', async (req, res) => {
 const PORT = process.env.PORT || 8080;
 const MONGOOSE_URL = 'mongodb://localhost:27017/WAVLANG'
 
-mongoose.connect(MONGOOSE_URL, {useNewUrlParser: true})
-.then(() => app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`)
-}))
-.catch(err=> {
-    console.log(err);
+// mongoose.set('useNewUrlParser', true);
+mongoose.set("strictQuery", false);
+mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true})
+.then(() => {
+    app.listen(process.env.PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    })
 })
+.catch((error) => {
+    console.log(error);
+});
+
+// mongoose.createConnection(MONGOOSE_URL, {useNewUrlParser: true})
+// .then(() => app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`)
+// }))
+// .catch(err=> {
+//     console.log(err);
+// })
 
 // app.listen(PORT, () => {
 //     console.log(`Server is running on port ${PORT}`);

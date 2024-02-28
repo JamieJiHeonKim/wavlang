@@ -1,18 +1,18 @@
 import React from 'react';
-import './LoginPage.scss';
+import './SignupPage.scss';
 import Navbar from '../components/Navbar/Navbar';
-import LoginForm from './Login/LoginForm';
+import Signup from './Signup/Signup';
 import Footer from '../sections/Footer/Footer';
 import { Link } from 'react-router-dom';
 
-const LoginPage = () => {
+const SignupPage = () => {
     return (
-        <div className='login-background'>
+        <div className='signup-background'>
             {/* <Navbar /> */}
-            <LoginForm />
+            <Signup />
             {/* <Footer /> */}
         </div>
     );
 };
 
-export default LoginPage;
+export default SignupPage;

@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router()
 
-const { signinController, signupController } = require('../controllers/userController');
+const { googleSigninController, googleSignupController, signinController } = require('../controllers/userController');
 
-router.post('/signin', signinController);
-router.post('/signup', signupController);
+router.post('/google-signin', googleSigninController);
+router.post('/google-signup', googleSignupController);
+router.post('/', signinController);
 
 module.exports = router;

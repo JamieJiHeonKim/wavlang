@@ -6,6 +6,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 import { signinGoogle, signin } from '../../redux/actions/auth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import googleIcon from '../../assets/google.png';
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");
@@ -46,41 +49,48 @@ const LoginForm = () => {
 
 
     return (
-        <section className='wrapper' data-aos="fade-up" data-aos-duration="1500">
-            <div className='container'>
-                <div className='form-data'>
-                    <form action="">
-                        <img className='image' src={Logo} />
-                        <input
-                            type="text"
-                            placeholder='Email address'
-                            required
-                            style={{ marginBottom: '10px' }}
-                            onChange={e => setEmail(e.target.value)}
-                        />
-                        <input 
-                            type="password"
-                            placeholder='Password'
-                            required
-                            onChange={e => setPassword(e.target.value)}
-                        />
-                        <button className='appointment-btn' type="submit">
-                            Sign in
-                        </button>
-                        <a href='/' className='forgotpassword-url' >Forgot password?</a>
-                        <p className='signup' >Don't have an account? <a href='/' className='signup-url' >Sign up</a></p>
-                        <span className='has-separator'>Or</span>
-                        {/* <a href='/' className='google-login'>
-                            <i className='fa-google' />Sign in with Google
-                        </a> */}
-                        <button className='appointment-btn' onClick={() => login()}>
-                            <i class='fa-brands fa-google'></i>Sign in with Google
-                        </button>
-                    </form>
+        <>
+            <a href='/' className="go-back-btn">
+                <FontAwesomeIcon icon={faArrowLeft} />
+            </a>
+            <section className='wrapper' data-aos="fade-up" data-aos-duration="1500">
+                <div className='container'>
+                    <div className='form-data'>
+                        <form action="">
+                            <img className='image' src={Logo} alt="logo"/>
+                            <input
+                                type="text"
+                                placeholder='Email address'
+                                required
+                                style={{ marginBottom: '10px' }}
+                                onChange={e => setEmail(e.target.value)}
+                            />
+                            <input 
+                                type="password"
+                                placeholder='Password'
+                                required
+                                onChange={e => setPassword(e.target.value)}
+                            />
+                            <button className='appointment-btn' type="submit">
+                                Sign in
+                            </button>
+                            <a href='/' className='forgotpassword-url'>Forgot password?</a>
+                            <p className='signup' >Don't have an account? <a href='/signup' className='signup-url' >Sign up</a></p>
+                            <span className='has-separator'>Or</span>
+                            {/* <button className='appointment-btn' onClick={() => login()}>
+                                <i className='fa-brands fa-google'></i>Sign in with Google
+                            </button> */}
+                            <button className="google-btn" onClick={() => login()}>
+                                <div className="google-icon-wrapper">
+                                    <img className="google-icon" src={googleIcon} />
+                                    <p>Sign in with Google</p>
+                                </div>
+                            </button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </section>
-        
+            </section>
+        </>
     )
 }
 

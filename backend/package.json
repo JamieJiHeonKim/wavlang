@@ -15,7 +15,10 @@
     "mongoose": "^8.2.0",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.0",
+    "passport": "^0.7.0",
+    "passport-google-oauth2": "^0.2.0",
     "path": "^0.12.7",
+    "react-passport": "^1.1.0",
     "stream": "^0.0.2"
   }
 }
