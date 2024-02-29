@@ -24,6 +24,7 @@
     flex-direction: column;
     justify-content: space-between;
     padding-top: 2rem;
+    color: $color-gray;
 }
 
 .container {
@@ -262,6 +263,11 @@
 
 .checkbox-text {
     display: block;
+}
+
+.error-message {
+    color: #939393;
+    font-size: 15px;
 }
 
 /*responsive styling*/

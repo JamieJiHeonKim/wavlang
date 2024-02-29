@@ -1,4 +1,5 @@
 import { React, useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Signup.scss';
 import Logo from '../../assets/sitelogo-whitebackground.png';
 import axios from 'axios';
@@ -12,21 +13,53 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 
-const FormRulesDialog = ({ open, onClose }) => {
+const MESSAGE_TYPES = {
+    FORM_RULES: 'formRules',
+    EMAIL_EXISTS: 'emailExists',
+  };
+
+const FormRulesDialog = ({ open, onClose, messageType }) => {
+    const getMessageContent = () => {
+        switch (messageType) {
+            case MESSAGE_TYPES.FORM_RULES:
+            return (
+                <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">Form Submission Rules</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            To submit this form, you must fill in all required fields:
+                        </DialogContentText>
+                        <ul>
+                            <li>First Name & Last Name must be <strong>at least 2 characters</strong> long.</li>
+                            <li>Email should be in a valid email format <strong>(example@example.com)</strong>.</li>
+                            <li>Password must have <strong>at least 8 characters</strong>.</li>
+                            <li>Confirm Password <strong>must match</strong> the Password.</li>
+                            <li>You <strong>must accept</strong> the Terms and Conditions.</li>
+                        </ul>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={onClose} color="primary">
+                            Close
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            );
+            case MESSAGE_TYPES.EMAIL_EXISTS:
+            return (
+                <DialogContentText>
+                    The email address you entered already exists in our database.<br/>
+                    Please use a different email address or login to your existing account.
+                </DialogContentText>
+            );
+            defult:
+                return null;
+        }
+    }
     return (
         <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Form Submission Rules</DialogTitle>
-            <DialogContent>
-                <DialogContentText>
-                    To submit this form, you must fill in all required fields:
-                </DialogContentText>
-                <ul>
-                    <li>First Name & Last Name must be <strong>at least 2 characters</strong> long.</li>
-                    <li>Email should be in a valid email format <strong>(example@example.com)</strong>.</li>
-                    <li>Password must be <strong>at least 8 characters</strong> long with <strong>at least 1 special character</strong>.</li>
-                    <li>Confirm Password <strong>must match</strong> the Password.</li>
-                    <li>You <strong>must accept</strong> the Terms and Conditions.</li>
-                </ul>
+                <DialogContent>
+                {getMessageContent()}
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} color="primary">
@@ -43,6 +76,7 @@ FormRulesDialog.defaultProps = {
 };
 
 const Signup = () => {
+    const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [touched, setTouched] = useState({});
     const [input, setInput] = useState({
@@ -53,8 +87,9 @@ const Signup = () => {
         confirmPassword: '',
         checked: false
     });
-
     const [error, setError] = useState({});
+    const [messageType, setMessageType] = useState(MESSAGE_TYPES.FORM_RULES);
+
 
     const handleBlur = e => {
         const { name } = e.target;
@@ -97,83 +132,68 @@ const Signup = () => {
 
     const validatePassword = (password) => {
         const minLength = password.length >= 8;
-        const specialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
       
-        return minLength && specialChar;
+        return minLength;
     };
 
-    const validateInput = e => {
-        const { name, value, type, checked } = e.target;
-        let newState = { ...error };
-
-        if (type === 'checkbox') {
-            return '';
-        } else {
-            switch (name) {
-                case "firstName":
-                case "lastName":
-                    if (!validateName(value)) {
-                        newState[name] = "Invalid character or must be at least 2 characters long";
-                    } else {
-                        newState[name] = '';
-                    }
-                    break;
-                case "email":
-                    if (!validateEmail(value)) {
-                        newState[name] = "Invalid email format";
-                    } else {
-                        newState[name] = '';
-                    }
-                    break;
-                case "password":
-                    if (!validatePassword(value)) {
-                        newState[name] = "Password must be at least 8 characters long with at least 1 special character";
-                    } else {
-                        newState[name] = '';
-                    }
-                    break;
-                case "confirmPassword":
-                    if (input.password && value !== input.password) {
-                        newState[name] = "Your passwords do not match";
-                    } else {
-                        newState[name] = '';
-                    }
-                    break;
-                default:
-                    newState[name] = '';
-                    break;
-            }
+    const validateInput = (name, value) => {
+        switch (name) {
+            case "firstName":
+            case "lastName":
+                if (!validateName(value)) {
+                    return "Invalid character or must be at least 2 characters long";
+                }
+                return '';
+            case "email":
+                if (!validateEmail(value)) {
+                    return "Invalid email format";
+                }
+                return '';
+            case "password":
+                if (!validatePassword(value)) {
+                    return "Password must have at least 8 characters";
+                }
+                return '';
+            case "confirmPassword":
+                if (input.password && value !== input.password) {
+                    return "Your passwords do not match";
+                }
+                return '';
+            default:
+                return '';
         }
-
-        setError(prev => ({ ...prev, ...newState }));
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        let formIsValid = true;
         let newErrors = {};
-        let isValid = true;
-    
+        
         Object.keys(input).forEach(key => {
             const value = input[key];
-            const type = key === 'checked' ? 'checkbox' : 'text';
-            const fakeEvent = { target: { name: key, value, type }};
-            const validationResult = validateInput(fakeEvent);
-            if (validationResult) {
-                newErrors[key] = validationResult;
-                isValid = false;
-            }
+            const error = validateInput(key, value);
+            newErrors[key] = error;
+            if (error) formIsValid = false;
         });
     
         if (!input.checked) {
             newErrors.checked = "You must accept the Terms and Conditions.";
-            isValid = false;
+            formIsValid = false;
         }
     
-        setError(newErrors);
-    
-        if (isValid) {
-            createUser(input);
+        if (formIsValid) {
+            try {
+                await createUser(input);
+            } catch (err) {
+                if (err.response && err.response.status === 409) {
+                    setMessageType(MESSAGE_TYPES.EMAIL_EXISTS);
+                } else {
+                    console.error('An error occurred:', err);
+                }
+                setIsModalOpen(true);
+            }
         } else {
+            setMessageType(MESSAGE_TYPES.FORM_RULES);
             setIsModalOpen(true);
         }
     }
@@ -186,22 +206,21 @@ const Signup = () => {
                 "email": obj.email,
                 "password": obj.password
             };
-            await axios
-                .post("http://localhost:8080/api/new_user", user, {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                })
-                .then((res) => {
-                    console.log("A new user has been added in the system.");
-                    console.log(res);
-                })
-                .catch((err) => {
-                    console.log("Adding a new user failed.");
-                    console.log(err)
-                });
-        } catch (error) {
-            throw error;
+            await axios.post("http://localhost:8080/api/new_user", user, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            console.log("A new user has been added in the system.");
+            navigate('/login', { state: { message: 'A new user has been created successfully. Please login.' } });
+        } catch(err) {
+            console.error("An error occurred:", err);
+            if (err.response && err.response.status === 409) {
+                setMessageType(MESSAGE_TYPES.EMAIL_EXISTS);
+                setIsModalOpen(true);
+            } else {
+                // handle other errors that aren't related to an existing email
+            }
         }
     };
 
@@ -256,7 +275,7 @@ const Signup = () => {
                                 style={{ marginBottom: '10px' }}
                                 onChange={onInputChange}
                                 onBlur={handleBlur}></input>
-                                {error.password && <span className='err'>{error.password}</span>}
+                                {error.password && <span className='error-message'>{error.password}</span>}
                             <input
                                 type="password"
                                 name="confirmPassword"
@@ -282,7 +301,11 @@ const Signup = () => {
                             </div>
                             <FormRulesDialog
                                 open={isModalOpen}
-                                onClose={() => setIsModalOpen(false)}
+                                onClose={() => {
+                                    setIsModalOpen(false);
+                                    setMessageType(MESSAGE_TYPES.FORM_RULES); // Reset message type upon closing
+                                }}
+                                messageType={messageType}
                             />
                             <button 
                                 className='appointment-btn' 

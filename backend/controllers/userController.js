@@ -5,19 +5,25 @@ const config = require('config');
 
 const User = require('../models/UserModel');
 
-const signinController = async(req, res) => {
-    const {firstName, lastName, email, password} = req.body;
-
+const signinController = async (req, res) => {
+    const { firstName, lastName, email, password } = req.body;
     try {
-        const user = await User.create({firstName, lastName, email, password})
-        res.status(200).json(user);
+        const user = await User.findOne({ email });
+    if (user) {
+        return res.status(409).json({
+            success: false,
+            error: "This email already exists"
+        });
+    }
+        const new_user = await User.create({ firstName, lastName, email, password });
+        await new_user.save();
+        return res.status(200).json(new_user);
     } catch (error) {
-        res.status(400).json({
+        return res.status(400).json({
             message: error.message
         });
-    };
-    
-}
+    }
+};
 
 const googleSigninController = async(req, res) => {
     if (req.body.googleAccessToken) {

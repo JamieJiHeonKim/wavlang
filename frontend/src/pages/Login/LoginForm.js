@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import './LoginForm.scss';
 import Logo from '../../assets/sitelogo-whitebackground.png';
 import { FaUser, FaLock } from 'react-icons/fa';
@@ -11,6 +12,8 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import googleIcon from '../../assets/google.png';
 
 const LoginForm = () => {
+    const location = useLocation();
+    const message = location.state?.message;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
@@ -55,6 +58,7 @@ const LoginForm = () => {
             </a>
             <section className='wrapper' data-aos="fade-up" data-aos-duration="1500">
                 <div className='container'>
+                    {message && <div className="alert alert-success">{message}</div>}
                     <div className='form-data'>
                         <form action="">
                             <img className='image' src={Logo} alt="logo"/>
