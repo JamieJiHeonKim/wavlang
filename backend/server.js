@@ -85,7 +85,7 @@ app.get("/api", (req, res) => {
     res.json({ message: "Hello from server!" });
 });
 
-app.use('/api/new_user', userRoutes);
+app.use('/api', userRoutes);
 app.use((req, res, next) => {
     console.log(req.path, req.method);
     next();

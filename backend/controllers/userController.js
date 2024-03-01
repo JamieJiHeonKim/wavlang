@@ -4,16 +4,14 @@ const axios = require('axios');
 const config = require('config');
 
 const User = require('../models/UserModel');
+const { sendError } = require('../utils/helper');
 
-const signinController = async (req, res) => {
+const createUser = async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
     try {
         const user = await User.findOne({ email });
     if (user) {
-        return res.status(409).json({
-            success: false,
-            error: "This email already exists"
-        });
+        return sendError(res, "This email already exists!");
     }
         const new_user = await User.create({ firstName, lastName, email, password });
         await new_user.save();
@@ -24,6 +22,38 @@ const signinController = async (req, res) => {
         });
     }
 };
+
+const signIn = async (req, res) => {
+    const {email, password} = req.body;
+    if(!email.trim() || !password.trim()){
+        return sendError(res, "Email/Password is missing!");
+    };
+
+    const user = await User.findOne({email});
+    if(!user) {
+        return sendError(res, 'User not found!');
+    };
+
+    const isMatched = await user.comparePassword(password);
+    if(!isMatched) {
+        return sendError(res, 'Password does not match!');
+    }
+
+    const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {
+        expiresIn: '1d'
+    });
+
+    res.json({
+        success: true,
+        user: {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            id: user._id,
+            token: token
+        }
+    })
+}
 
 const googleSigninController = async(req, res) => {
     if (req.body.googleAccessToken) {
@@ -152,5 +182,6 @@ const googleSignupController = async(req, res) => {
 module.exports = {
     googleSigninController,
     googleSignupController,
-    signinController
+    createUser,
+    signIn
 }
