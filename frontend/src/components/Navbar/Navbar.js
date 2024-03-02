@@ -48,11 +48,17 @@ const Navbar = () => {
                             {/* Navbar Link */}
                             <ul className="navbar-nav m-auto mb-2 mb-lg-0">
                                { 
-                                navbarItems.map (navSingle =>
-                                    <li className="nav-item" key={navSingle.id}>
-                                        <Link className="nav-link" to={navSingle.path}>{navSingle.name}</Link>
-                                    </li>
-                                    ) 
+                                navbarItems.map((navSingle, index) => {
+                                    const key = `nav-item-${navSingle.name}-${index}`;
+                                    return (
+                                        <li className='nav-item' key={key}>
+                                        <Link className='nav-link' to={navSingle.path}>{navSingle.name}</Link>
+                                        </li>
+                                    );
+                                })
+                                    // <li className="nav-item" key={navSingle.id}>
+                                    //     <Link className="nav-link" to={navSingle.path}>{navSingle.name}</Link>
+                                    // </li>
                                 }
                             </ul>
                             

@@ -74,7 +74,12 @@ const Footer = () => {
                             <p>Quick Links</p>
                             <ul>
                                 {
-                                    footerMenu.map(singleMenu => <li><Link to={singleMenu.link}>{singleMenu.name}</Link></li>)
+                                    footerMenu.map((singleMenu, index) => (
+                                        <li key={`menu-item-${index}`}>
+                                            <Link to={singleMenu.link}>{singleMenu.name}</Link>
+                                        </li>
+                                    ))
+                                    // footerMenu.map(singleMenu => <li><Link to={singleMenu.link}>{singleMenu.name}</Link></li>)
                                 }
                             </ul>
                         </div>
@@ -84,17 +89,28 @@ const Footer = () => {
                             <p>Contact & Information</p>
 
                             {
-                                footerContacts.map(footerContact => {
-                                    return  <div className="contact-list">
-                                                <div className="contact-icon">
-                                                    <img src={footerContact.icon} alt="mail" />
-                                                </div>
-                                                <div className="contact-text">
-                                                    <p>{footerContact.title}</p>
-                                                    <h5>{footerContact.info}</h5>
-                                                </div>
-                                            </div>
-                                })
+                                footerContacts.map((footerContact, index) => (
+                                    <div className="contact-list" key={`contact-item-${index}`}>
+                                        <div className="contact-icon">
+                                            <img src={footerContact.icon} alt="icon" />
+                                        </div>
+                                        <div className="contact-text">
+                                            <p>{footerContact.title}</p>
+                                            <h5>{footerContact.info}</h5>
+                                        </div>
+                                    </div>
+                                ))
+                                // footerContacts.map(footerContact => {
+                                //     return  <div className="contact-list">
+                                //                 <div className="contact-icon">
+                                //                     <img src={footerContact.icon} alt="mail" />
+                                //                 </div>
+                                //                 <div className="contact-text">
+                                //                     <p>{footerContact.title}</p>
+                                //                     <h5>{footerContact.info}</h5>
+                                //                 </div>
+                                //             </div>
+                                // })
                             }
                         </div>
                     </div>
