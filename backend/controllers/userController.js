@@ -4,7 +4,12 @@ const axios = require('axios');
 const config = require('config');
 
 const User = require('../models/UserModel');
-const { sendError } = require('../utils/helper');
+const VerificationToken = require('../models/VerificationToken');
+const ResetToken = require('../models/ResetToken');
+
+const { isValidObjectId } =require("mongoose");
+const { sendError, createRandomBytes } = require('../utils/helper');
+const { generateOTP, mailTransport, generateEmailTemplate, plainEmailTemplate, generatePasswordResetTemplate, newPasswordEmailTemplate } = require('../utils/mail');
 
 const createUser = async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
@@ -13,8 +18,23 @@ const createUser = async (req, res) => {
     if (user) {
         return sendError(res, "This email already exists!");
     }
-        const new_user = await User.create({ firstName, lastName, email, password });
+        const new_user = await User.create({
+            firstName, lastName, email, password
+        });
+        const otp = generateOTP();
+        const verificationToken = await VerificationToken.create({
+            owner: new_user._id,
+            token: otp
+        })
+        await verificationToken.save();
         await new_user.save();
+
+        mailTransport().sendMail({
+            from: 'do_not_reply@wavlang.com',
+            to: new_user.email,
+            subject: "Verify your email account",
+            html: generateEmailTemplate(otp),
+        });
         return res.status(200).json(new_user);
     } catch (error) {
         return res.status(400).json({
@@ -22,6 +42,67 @@ const createUser = async (req, res) => {
         });
     }
 };
+
+const verifyEmail = async (req, res) => {
+    const {userId, otp} = req.body;
+    if(!userId || !otp.trim()) {
+        return(
+            sendError(res, 'Invalid request, missing parameters!')
+        );
+    };
+    if(!isValidObjectId(userId)) {
+        return(
+            sendError(res, 'Invalid user id!')
+        )
+    };
+    const user = await User.findById(userId);
+    if(!user) {
+        return(
+            sendError(res, 'Sorry, user is not found!')
+        );
+    };
+    if(user.verified) {
+        return(
+            sendError(res, 'This email is already verified')
+        );
+    }
+    
+    const token = await VerificationToken.findOne({
+        owner: user._id
+    });
+
+    if(!token) {
+        return(
+            sendError(res, 'Sorry, user is not found!')
+        );
+    }
+
+    const isMatched = await token.compareToken(otp);
+    if(!isMatched) {
+        return(
+            sendError(res, 'Please provide a valid token!')
+        );
+    }
+
+    user.verified = true;
+    await VerificationToken.findByIdAndDelete(token._id);
+    await user.save();
+
+    mailTransport().sendMail({
+        from: "do_not_reply@wavlang.com",
+        to: user.email,
+        subject: "WavLang: Verify your email",
+        html: plainEmailTemplate(
+            "Email Verified Successfully",
+            "Thank you for choosing our service!"
+        ),
+    });
+    res.json({
+        success: true,
+        subject: "WavLang: Email verified successfully",
+        message: "Your email is verified", user: {name: user.name, email: user.email, id: user._id}
+    })
+}
 
 const signIn = async (req, res) => {
     const {email, password} = req.body;
@@ -49,10 +130,87 @@ const signIn = async (req, res) => {
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
+            verified: user.verified,
             id: user._id,
             token: token
         }
     })
+}
+
+const forgotPassword = async (req, res) => {
+    const {email} = req.body;
+    if(!email) {
+        return(
+            sendError(res, 'Please provide a valid email')
+        );
+    }
+    
+    const user = await User.findOne({email});
+    if(!user) {
+        return(
+            sendError(res, 'User is not found. Invalid request')
+        );
+    }
+
+    // const token = await ResetToken.findOne({owner: user._id});
+    const token = await ResetToken.findOne({ owner: user._id }).sort({ createdAt: -1 });
+    if (token) {
+        const timeSinceTokenCreated = Date.now() - token.createdAt.getTime();
+        if (timeSinceTokenCreated < 600000) { // 600000 milliseconds = 10 minutes
+            return sendError(res, 'You have already requested a new password. Only after 10 minutes, you can request for another password reset');
+        }
+        // If the token exists but is older than 10 minutes, remove it.
+        await ResetToken.deleteOne({ _id: token._id });
+    }
+    const newToken = await createRandomBytes();
+    const resetToken = new ResetToken({owner: user._id, token: newToken});
+    await resetToken.save();
+
+    mailTransport().sendMail({
+        from: "do_not_reply@wavlang.com",
+        to: user.email,
+        subject: "WavLang: Reset Password",
+        html: generatePasswordResetTemplate(`http://localhost:3000/reset-password?token=${newToken}&id=${user._id}`)
+    });
+
+    res.json({success: true, message: 'Reset Password link is sent to your inbox'});
+}
+
+const resetPassword = async (req, res) => {
+    try {
+        const {password} = req.body;
+        const user = await User.findById(req.user._id);
+        if(!user) {
+            return(sendError(res, 'User is not found'))
+        }
+        
+        const isOldPassword = await user.comparePassword(password);
+        if(isOldPassword) {
+            return(sendError(res, 'New password must not match your old password'))
+        }
+        
+        if(password.trim().length < 8 || password.trim().length > 20) {
+            return(sendError(res, 'Password must be 8 to 20 characters long'))
+        }
+        
+        user.password = password.trim();
+        await user.save();
+        await ResetToken.findOneAndDelete({owner: user._id});
+
+        // mailTransport().sendMail({
+        //     from: 'do_not_reply@wavlang.com',
+        //     to: user.email,
+        //     subject: "WavLang: Password Reset Successful",
+        //     html: newPasswordEmailTemplate("Password Reset Successful", "Try logging in with your new password!", `http://localhost:3000/login`)
+        // });
+    
+        res.json({success: true, message: "Password Reset Successful"})
+    } catch (error) {
+        console.error(error);
+        if(!res.headersSent) {
+            res.status(500).json({success: false, message: "An error occurred during the password reset process"});
+        }
+    }
 }
 
 const googleSigninController = async(req, res) => {
@@ -183,5 +341,8 @@ module.exports = {
     googleSigninController,
     googleSignupController,
     createUser,
-    signIn
+    signIn,
+    verifyEmail,
+    forgotPassword,
+    resetPassword
 }

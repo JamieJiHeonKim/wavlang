@@ -32,7 +32,7 @@ const FormRulesDialog = ({ open, onClose, messageType }) => {
                         <ul>
                             <li>First Name & Last Name must be <strong>at least 2 characters</strong> long.</li>
                             <li>Email should be in a valid email format <strong>(example@example.com)</strong>.</li>
-                            <li>Password must have <strong>at least 8 characters</strong>.</li>
+                            <li>Password must be <strong>8 to 20 characters long</strong>.</li>
                             <li>Confirm Password <strong>must match</strong> the Password.</li>
                             <li>You <strong>must accept</strong> the Terms and Conditions.</li>
                         </ul>
@@ -131,9 +131,7 @@ const Signup = () => {
     }
 
     const validatePassword = (password) => {
-        const minLength = password.length >= 8;
-      
-        return minLength;
+        return password.length >= 8 && password.length <= 20;
     };
 
     const validateInput = (name, value) => {
@@ -200,10 +198,13 @@ const Signup = () => {
 
     const createUser = async (obj) => {
         try{
+            const userFirstName = obj.firstName.charAt(0).toUpperCase() + obj.firstName.slice(1);
+            const userLastName = obj.lastName.charAt(0).toUpperCase() + obj.lastName.slice(1);
+            const userEmail = obj.email.toLowerCase();
             const user = {
-                "firstName": obj.firstName,
-                "lastName": obj.lastName,
-                "email": obj.email,
+                "firstName": userFirstName,
+                "lastName": userLastName,
+                "email": userEmail,
                 "password": obj.password
             };
             await axios.post("http://localhost:8080/api/new_user", user, {
@@ -212,7 +213,7 @@ const Signup = () => {
                 },
             });
             console.log("A new user has been added in the system.");
-            navigate('/login', { state: { message: 'A new user has been created successfully. Please login.' } });
+            navigate('/login', { state: { message: 'A verification email to create a new user has been sent to your inbox' } });
         } catch(err) {
             console.error("An error occurred:", err);
             if (err.response && err.response.status === 409) {

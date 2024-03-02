@@ -1,5 +1,6 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 import './LoginForm.scss';
 import Logo from '../../assets/sitelogo-whitebackground.png';
 import { FaUser, FaLock } from 'react-icons/fa';
@@ -9,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { signinGoogle, signin } from '../../redux/actions/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { Alert } from '@mui/material';
 import googleIcon from '../../assets/google.png';
 
 const LoginForm = () => {
@@ -16,6 +18,9 @@ const LoginForm = () => {
     const message = location.state?.message;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [response, setResponse] = useState("");
+    const [isMessageReady, setIsMessageReady] = useState(false);
+    const [notVerified, setNotVerified] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -28,15 +33,20 @@ const LoginForm = () => {
         onSuccess: handleGoogleLoginSuccess
     });
 
-    const handleSubmit = (e) => {
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     if (email !== "" && password !== "") {
+    //         dispatch(signin({
+    //             email,
+    //             password
+    //         },
+    //         navigate))
+    //     };
+    // };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (email !== "" && password !== "") {
-            dispatch(signin({
-                email,
-                password
-            },
-            navigate))
-        };
+        verifyEmail(email, password);
     };
 
     const googleLogin = useGoogleLogin({
@@ -49,14 +59,45 @@ const LoginForm = () => {
         flow: 'auth-code',
     });
 
+    const verifyEmail = async (emailInput, passwordInput) => {
+        try{
+            setNotVerified(false);
+            const res = await axios
+                .post("http://localhost:8080/api/signin", {
+                    email: emailInput,
+                    password: passwordInput
+                }, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+            if(res.data.user.verified) {
+                setNotVerified(false);
+                navigate('/');
+            } else {
+                setNotVerified(true);
+                setResponse({message: "Verification email has been sent to your inbox. Please verify."})
+            }
+            
+        } catch (err) {
+            if(err.response) {
+                setNotVerified(true);
+                setResponse({message: err.response.data.error});
+                setIsMessageReady(true);
+            }
+        }
+    };
 
+    useEffect(() => {
+        // console.log(response.message)
+    }, [response, isMessageReady, email, password, notVerified]);
 
     return (
         <>
             <a href='/' className="go-back-btn">
                 <FontAwesomeIcon icon={faArrowLeft} />
             </a>
-            <section className='wrapper' data-aos="fade-up" data-aos-duration="1500">
+            <section className='wrapper' data-aos="fade-up" data-aos-duration="1500" style={{ fontFamily: 'Poppins, sans-serif' }}>
                 <div className='container'>
                     {message && <div className="alert alert-success">{message}</div>}
                     <div className='form-data'>
@@ -75,22 +116,24 @@ const LoginForm = () => {
                                 required
                                 onChange={e => setPassword(e.target.value)}
                             />
-                            <button className='appointment-btn' type="submit">
+                            <button className='appointment-btn' type="submit" onClick={(e) => handleSubmit(e)} >
                                 Sign in
                             </button>
-                            <a href='/' className='forgotpassword-url'>Forgot password?</a>
+                            <a href='/forgot-password' className='forgotpassword-url'>Forgot password?</a>
                             <p className='signup' >Don't have an account? <a href='/signup' className='signup-url' >Sign up</a></p>
-                            <span className='has-separator'>Or</span>
-                            {/* <button className='appointment-btn' onClick={() => login()}>
-                                <i className='fa-brands fa-google'></i>Sign in with Google
-                            </button> */}
+                            {/* <span className='has-separator'>Or</span>
                             <button className="google-btn" onClick={() => login()}>
                                 <div className="google-icon-wrapper">
                                     <img className="google-icon" src={googleIcon} />
                                     <p>Sign in with Google</p>
                                 </div>
-                            </button>
+                            </button> */}
                         </form>
+                        {notVerified ? 
+                            <Alert severity="warning" color="warning" style={{ maxWidth: '450px', textAlign:'center' }}>
+                                {response.message}
+                            </Alert> : null
+                        }
                     </div>
                 </div>
             </section>

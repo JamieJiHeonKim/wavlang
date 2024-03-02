@@ -14,6 +14,7 @@ const mongoose = require('mongoose');
 const passport = require("passport");
 const OAuth2Strategy = require("passport-google-oauth2").Strategy;
 const userdb = require('./models/UserModel');
+const verificationTokendb = require('./models/VerificationToken');
 // const fs = require("fs").promises;
 
 require('dotenv').config()
