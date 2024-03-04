@@ -58,7 +58,6 @@ const ResetPassword = () => {
     const [error, setError] = useState({});
     const {token, id} = queryString.parse(location.search);
     const [success, setSuccess] = useState(false);
-    const [loaded, setLoaded] = useState(false);
     const [isMessageReady, setIsMessageReady] = useState(false);
     const [response, setResponse] = useState("");
     const [message, setMessage] = useState("");
@@ -117,7 +116,6 @@ const ResetPassword = () => {
     }
 
     const verifyToken = async () => {
-        setLoaded(true);
         try{
             const { data } = await axios.get(
                 `${baseUrl}/verify-token?token=${token}&id=${id}`
@@ -173,7 +171,6 @@ const ResetPassword = () => {
     }
 
     useEffect(() => {
-        setLoaded(false);
         verifyToken();
     }, [isError,response,isMessageReady])
 

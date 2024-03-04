@@ -16,7 +16,7 @@ import Button from '@mui/material/Button';
 const MESSAGE_TYPES = {
     FORM_RULES: 'formRules',
     EMAIL_EXISTS: 'emailExists',
-  };
+};
 
 const FormRulesDialog = ({ open, onClose, messageType }) => {
     const getMessageContent = () => {

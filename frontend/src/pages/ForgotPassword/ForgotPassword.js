@@ -60,11 +60,14 @@ const ForgotPassword = () => {
                     <div className='form-data'>
                         <form action="">
                             <img className='image' src={Logo} alt="logo"/>
+                            <p>
+                                Enter your email address to reset password
+                            </p>
                             <input
                                 type="text"
                                 placeholder='Email address'
                                 required
-                                style={{ marginBottom: '10px' }}
+                                style={{ marginBottom: '10px', marginTop: '10px' }}
                                 onChange={e => setEmail(e.target.value)}
                             />
                             <button className='appointment-btn' type="submit" onClick={(e) => handleSubmit(e)} >

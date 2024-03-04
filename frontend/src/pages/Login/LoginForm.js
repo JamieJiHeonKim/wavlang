@@ -130,7 +130,7 @@ const LoginForm = () => {
                             </button> */}
                         </form>
                         {notVerified ? 
-                            <Alert severity="warning" color="warning" style={{ maxWidth: '450px', textAlign:'center' }}>
+                            <Alert severity="warning" color="warning" style={{ maxWidth: '550px', textAlign:'center' }}>
                                 {response.message}
                             </Alert> : null
                         }

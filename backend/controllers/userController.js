@@ -58,7 +58,7 @@ const verifyEmail = async (req, res) => {
     const user = await User.findById(userId);
     if(!user) {
         return(
-            sendError(res, 'Sorry, user is not found!')
+            sendError(res, 'User is not found!')
         );
     };
     if(user.verified) {
@@ -73,7 +73,7 @@ const verifyEmail = async (req, res) => {
 
     if(!token) {
         return(
-            sendError(res, 'Sorry, user is not found!')
+            sendError(res, 'User is not found!')
         );
     }
 
