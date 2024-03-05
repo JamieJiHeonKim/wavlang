@@ -4,18 +4,22 @@ import queryString from 'query-string';
 import './VerifyEmail.scss';
 import Logo from '../../assets/sitelogo-whitebackground.png';
 import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import OTPInput from 'react-otp-input';
 
-const baseUrl = 'http://localhost:8080/api/user';
+const baseUrl = 'http://localhost:8080/api/';
 
 const VerifyEmail = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const {token, id} = queryString.parse(location.search);
+    const stateMessage = location.state?.message;
+    const {id} = queryString.parse(location.search);
     const [isError, setIsError] = useState(false);
     const [message, setMessage] = useState("");
+    const [isMessageReady, setIsMessageReady] = useState(false);
     const [invalidUser, setInvalidUser] = useState("");
     const [success, setSuccess] = useState(false);
     const [OTP, setOTP] = useState("");
@@ -25,7 +29,7 @@ const VerifyEmail = () => {
     const verifyToken = async () => {
         try{
             const { data } = await axios.get(
-                `${baseUrl}/verify-email?token=${token}&id=${id}`
+                `${baseUrl}/user/verify-email?id=${id}`
             );
             console.log("data:", data);
         } catch (error) {
@@ -47,11 +51,13 @@ const VerifyEmail = () => {
         }
     }
 
-    const verifyEmailCode = async (otp) => {
+    const verifyEmailCode = async (e) => {
+        e.preventDefault();
         try {
             const {data} = await axios.post(
-                `${baseUrl}/reset-password?token=${token}&id=${id}`,
-                {otp}
+                // `${baseUrl}/verify-email?id=${id}`,
+                `${baseUrl}/verify-email?id=${id}`,
+                {otp:OTP, userId: id}
             );
             if(data.success) {
                 setSuccess(true);
@@ -60,6 +66,7 @@ const VerifyEmail = () => {
         } catch (error) {
             if (error?.response?.data) {
                 const {data} = error.response;
+                setIsMessageReady(true);
                 setResponse({message: error.response.data.error});
                 if(!data.success) {
                     return(
@@ -74,7 +81,7 @@ const VerifyEmail = () => {
 
     useEffect(() => {
         verifyToken();
-    }, [isError])
+    }, [])
 
     return (
         <>
@@ -84,25 +91,47 @@ const VerifyEmail = () => {
             <section className='wrapper' data-aos="fade-up" data-aos-duration="1500">
                 <div className='container'>
                     <div className='form-data'>
-                        <form action="">
-                            <img className='image' src={Logo} alt="logo"/>
-                            <p style={{ marginBottom: '10px' }}>
-                                Enter your verification code here
-                            </p>
-                            <OTPInput
-                                onChange={setOTP}
-                                value={OTP}
-                                numInputs={6}
-                                renderSeparator={<span></span>}
-                                inputStyle="otpInputBox"
-                                renderInput={(props) => <input {...props} />}
-                            />
-                            <button 
-                                className='appointment-btn'
-                                type='submit'>
-                                Submit
-                            </button>
-                        </form>
+                        {isError ? 
+                            <>
+                                <p>
+                                    This link is for <strong>one-time use</strong>.<br/><br/>
+                                    <strong>{message}</strong>.<br/><br/>
+                                    If you would like to verify email, please try again.<br /><br />
+                                    <a href='/signup'>Sign up</a>
+                                </p>
+                            </> : 
+                            <>
+                                <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+                                    {stateMessage && <div>{stateMessage}</div>}
+                                </Alert>
+                                {/* task:  re-send OTP code in case of some kind of error or wrong email */}
+                                <form action="">
+                                    <img className='image' src={Logo} alt="logo"/>
+                                    <p style={{ marginBottom: '10px' }}>
+                                        Enter your verification code here
+                                    </p>
+                                    <OTPInput
+                                        onChange={setOTP}
+                                        value={OTP}
+                                        numInputs={6}
+                                        renderSeparator={<span></span>}
+                                        inputStyle="otpInputBox"
+                                        renderInput={(props) => <input {...props} />}
+                                    />
+                                    <button 
+                                        className='appointment-btn'
+                                        type='submit'
+                                        onClick={verifyEmailCode}>
+                                        Submit
+                                    </button>
+                                </form>
+                            </>
+                        }
+                        {isMessageReady ? 
+                            <Alert severity="warning" color="warning" style={{ maxWidth: '500px', textAlign:'center' }}>
+                                {response.message}
+                            </Alert> : null
+                        }
                     </div>
                 </div>
             </section>

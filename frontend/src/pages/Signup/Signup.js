@@ -207,13 +207,14 @@ const Signup = () => {
                 "email": userEmail,
                 "password": obj.password
             };
-            await axios.post("http://localhost:8080/api/new_user", user, {
+            const { data } = await axios.post("http://localhost:8080/api/new_user", user, {
                 headers: {
                     "Content-Type": "application/json",
                 },
             });
             console.log("A new user has been added in the system.");
-            navigate('/login', { state: { message: 'A verification email to create a new user has been sent to your inbox' } });
+            // const { data } = await axios.post("http://localhost:8080/api/verify-email")
+            navigate(`/verify-email?id=${data._id}`, { state: { message: 'A verification email to create a new user has been sent to your inbox' } });
         } catch(err) {
             console.error("An error occurred:", err);
             if (err.response && err.response.status === 409) {

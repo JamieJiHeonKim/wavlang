@@ -85,8 +85,8 @@ const verifyEmail = async (req, res) => {
     }
 
     user.verified = true;
-    await VerificationToken.findByIdAndDelete(token._id);
     await user.save();
+    await VerificationToken.findByIdAndDelete(token._id);
 
     mailTransport().sendMail({
         from: "do_not_reply@wavlang.com",

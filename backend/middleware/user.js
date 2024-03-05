@@ -32,10 +32,8 @@ const isResetTokenValid = async (req, res, next) => {
 }
 
 const isEmailVerificationTokenValid = async (req, res, next) => {
-    const {token, id} = req.query;
-    if(!token || !id) {
-        return(sendError(res, 'Invalid request'))
-    }
+    const {id} = req.query;
+
     if(!isValidObjectId(id)) {
         return(sendError(res, 'Invalid user'))
     }
@@ -45,15 +43,15 @@ const isEmailVerificationTokenValid = async (req, res, next) => {
         return(sendError(res, 'User is not found'))
     }
 
-    const emailVerificationToken = await EmailVerificationToken.findOen({owner: user._id});
+    const emailVerificationToken = await EmailVerificationToken.findOne({owner: user._id});
     if(!emailVerificationToken) {
         return(sendError(res, 'Email Verification Token is either not found or has already expired'))
     };
 
-    const isValid = await emailVerificationToken.compareToken(token);
-    if(!isValid) {
-        return(sendError(res, 'Email Verification Token is not valid'))
-    }
+    // const isValid = await emailVerificationToken.compareToken(token);
+    // if(!isValid) {
+    //     return(sendError(res, 'Email Verification Token is not valid'))
+    // }
     req.user = user;
     next();
 }
