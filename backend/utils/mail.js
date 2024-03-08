@@ -19,7 +19,7 @@ const mailTransport = () =>
         }
     });
 
-const generateEmailTemplate = (code) => {
+const generateEmailTemplate = (code, url) => {
     return(
         `
         <!DOCTYPE html>

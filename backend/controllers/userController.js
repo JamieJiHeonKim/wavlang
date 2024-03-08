@@ -72,9 +72,16 @@ const verifyEmail = async (req, res) => {
     });
 
     if(!token) {
-        return(
-            sendError(res, 'User is not found!')
-        );
+        if (!user.verified && new Date() - new Date(user.createdAt).getTime() > 600000) {
+            await User.findByIdAndDelete(user._id);
+            return(
+                sendError(res, 'The verification period has expired and the user data has been deleted')
+            )
+        } else {
+            return(
+                sendError(res, 'Token not found or has already expired')
+            );
+        }
     }
 
     const isMatched = await token.compareToken(otp);
@@ -103,6 +110,45 @@ const verifyEmail = async (req, res) => {
         message: "Your email is verified", user: {name: user.name, email: user.email, id: user._id}
     })
 }
+
+const resendVerificationCode = async (req, res) => {
+    const { userId } = req.body;
+  
+    if (!userId || !isValidObjectId(userId)) {
+        return sendError(res, 'Invalid user ID provided.');
+    }
+  
+    const user = await User.findById(userId);
+    const currentToken = await VerificationToken.findOne({ owner: userId });
+  
+    if (currentToken && new Date() - currentToken.createdAt < 600000) {
+        return sendError(res, 'You can only request a new code every 10 minutes. Please wait.');
+    }
+  
+    if (!currentToken || new Date() - currentToken.createdAt >= 600000) {
+            if (currentToken) {
+            await VerificationToken.findByIdAndDelete(currentToken._id);
+        }
+        const newToken = generateOTP();
+        const verificationToken = new VerificationToken({
+            owner: userId,
+            token: newToken,
+        });
+        await verificationToken.save();
+  
+        mailTransport().sendMail({
+            from: 'do_not_reply@wavlang.com',
+            to: user.email,
+            subject: 'WavLang: Verify Your Email Account',
+            html: generateEmailTemplate(newToken),
+        });
+  
+        return res.json({
+            success: true,
+            message: 'A new verification code has been sent to your email.',
+        });
+    }
+};
 
 const signIn = async (req, res) => {
     const {email, password} = req.body;
@@ -344,5 +390,6 @@ module.exports = {
     signIn,
     verifyEmail,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    resendVerificationCode
 }

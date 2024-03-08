@@ -79,6 +79,23 @@ const VerifyEmail = () => {
         
     }
 
+    const resendCode = async () => {
+        try {
+            const { data } = await axios.post(`${baseUrl}/resend-verification-code`, { userId: id });
+            setMessage(data.message);
+            setIsMessageReady(true);
+        } catch (error) {
+            if (error?.response?.data) {
+                setIsMessageReady(true);
+                setResponse({message: error.response.data.error});
+            } else {
+                console.error(error);
+                setError("An error occurred while resending the code.");
+                setIsMessageReady(true);
+            }
+        }
+    }
+
     useEffect(() => {
         verifyToken();
     }, [])
@@ -125,6 +142,13 @@ const VerifyEmail = () => {
                                         Submit
                                     </button>
                                 </form>
+                                <button 
+                                    className='appointment-btn'
+                                    type='submit'
+                                    onClick={resendCode}
+                                >
+                                    Resend OTP Code
+                                </button>
                             </>
                         }
                         {isMessageReady ? 

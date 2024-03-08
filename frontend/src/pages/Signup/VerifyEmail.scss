@@ -176,6 +176,20 @@
     }
 }
 
+.resend-code-btn {
+    background: $color-white;
+    color: $color-black;
+    // border: 1px solid transparent;
+    font-size: 16px;
+    font-weight: 500;
+
+    &:hover {
+        background: $color-black;
+        color: $color-white;
+        border: 1px solid $color-black;
+    }
+}
+
 .forgotpassword-url {
     font-size: 13px;
     color: #999999;
