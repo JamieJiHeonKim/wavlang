@@ -73,17 +73,37 @@ const LoginForm = () => {
                 });
             if(res.data.user.verified) {
                 setNotVerified(false);
+                localStorage.setItem("token", res.data.user.token);
+                localStorage.setItem("email", emailInput);
+                // userAuthenticated();
                 navigate('/');
             } else {
                 setNotVerified(true);
                 setResponse({message: "Verification email has been sent to your inbox. Please verify."})
             }
-            
         } catch (err) {
             if(err.response) {
                 setNotVerified(true);
                 setResponse({message: err.response.data.error});
                 setIsMessageReady(true);
+            }
+        }
+    };
+
+    const userAuthenticated = async () => {
+        try {
+            const res = await axios
+                .get("http://localhost:8080/user/isUserAuth", {
+                    headers: {
+                        "x-access-token": localStorage.getItem("token"),
+                    },
+                }).then((response) => {
+                    console.log(response);
+                }
+            );
+        } catch (err) {
+            if(err.response) {
+                console.error(err.response);
             }
         }
     };

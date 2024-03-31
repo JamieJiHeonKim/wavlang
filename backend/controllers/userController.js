@@ -95,20 +95,43 @@ const verifyEmail = async (req, res) => {
     await user.save();
     await VerificationToken.findByIdAndDelete(token._id);
 
-    mailTransport().sendMail({
-        from: "do_not_reply@wavlang.com",
-        to: user.email,
-        subject: "WavLang: Verify your email",
-        html: plainEmailTemplate(
-            "Email Verified Successfully",
-            "Thank you for choosing our service!"
-        ),
-    });
-    res.json({
-        success: true,
-        subject: "WavLang: Email verified successfully",
-        message: "Your email is verified", user: {name: user.name, email: user.email, id: user._id}
-    })
+    // mailTransport().sendMail({
+    //     from: "do_not_reply@wavlang.com",
+    //     to: user.email,
+    //     subject: "WavLang: Verify your email",
+    //     html: plainEmailTemplate(
+    //         "Email Verified Successfully",
+    //         "Thank you for choosing our service!"
+    //     ),
+    // });
+    // res.json({
+    //     success: true,
+    //     subject: "WavLang: Email verified successfully",
+    //     message: "Your email is verified", user: {name: user.name, email: user.email, id: user._id}
+    // })
+}
+
+const verifyJWT = (req, res, next) => {
+    console.log("nice");
+    const token = req.headers['x-access-token'];
+    console.log(token);
+    // const { userId } = req.body;
+
+    if(!token) {
+        return res.status(403).send({ auth: false, message: 'No token provided.' });
+    } else {
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) {
+                return res.status(500).send({
+                    auth: false,
+                    message: 'Failed to authenticate token.'
+                });
+            } else {
+                req.userId = decoded.id;
+                next();
+            }
+        });
+    }
 }
 
 const resendVerificationCode = async (req, res) => {
@@ -221,6 +244,29 @@ const forgotPassword = async (req, res) => {
 
     res.json({success: true, message: 'Reset Password link is sent to your inbox'});
 }
+
+const findUserWithJWT = async (req, res) => {
+    try {
+        const token = req.headers['x-access-token'];
+        if (!token) {
+            return sendError(res, "Token is missing in the request!");
+        }
+
+        const user = await User.findById(token);
+        if (!user) {
+            return sendError(res, 'User not found!');
+        }
+
+        res.json({
+            success: true,
+        });
+    } catch (error) {
+        console.error(error);
+        if (!res.headersSent) {
+            res.status(500).json({ success: false, message: "An error occurred while looking for the user token" });
+        }
+    }
+};
 
 const resetPassword = async (req, res) => {
     try {
@@ -391,5 +437,7 @@ module.exports = {
     verifyEmail,
     forgotPassword,
     resetPassword,
-    resendVerificationCode
+    resendVerificationCode,
+    verifyJWT,
+    findUserWithJWT
 }

@@ -3,7 +3,7 @@ const router = express.Router()
 const { validateUser, validate } = require('../middleware/validator');
 const { isResetTokenValid, isEmailVerificationTokenValid } = require('../middleware/user');
 
-const { googleSigninController, googleSignupController, createUser, signIn, verifyEmail, forgotPassword, resetPassword, resendVerificationCode } = require('../controllers/userController');
+const { googleSigninController, googleSignupController, createUser, signIn, verifyEmail, forgotPassword, resetPassword, resendVerificationCode, verifyJWT, findUserWithJWT } = require('../controllers/userController');
 
 router.post('/google-signin', googleSigninController);
 router.post('/google-signup', googleSignupController);
@@ -17,6 +17,14 @@ router.get('/user/verify-token', isResetTokenValid, (req, res) => {
     res.json({success: true})
 });
 router.get('/user/verify-email', isEmailVerificationTokenValid, (req, res) => {
+    res.json({success: true})
+});
+// router.get('/user/isUserAuth', verifyJWT, (req, res) => {
+//     res.json({success: true})
+// });
+
+router.get('/user/:userId', findUserWithJWT, (req, res) => {
+    const userId = req.params.userId;
     res.json({success: true})
 });
 

@@ -1,9 +1,12 @@
-import React from 'react';
+import { React, useState, useEffect } from 'react';
 import './Navbar.scss';
 import logo from './../../assets/sitelogo-whitebackground.png';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 const Navbar = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const navbarItems = [
         {
@@ -31,6 +34,34 @@ const Navbar = () => {
             path: '/contact',
         },
     ];
+
+    const handleLoggedIn = async () => {
+        if (localStorage.getItem("token") && localStorage.getItem("email")) {
+            const user_token = localStorage.getItem("token");
+            const decoded = jwtDecode(user_token);
+            console.log(decoded.userId);
+            console.log(user_token)
+            try {
+                const res = await axios.get(`http://localhost:8080/api/user/${decoded.userId}`, {
+                    headers: { 'x-access-token': decoded.userId }
+                });
+                console.log(res);
+                setIsLoggedIn(true);
+            } catch (err) {
+                if (err.response) {
+                    console.error(err.response);
+                }
+            setIsLoggedIn(false);
+            }
+        } else {
+            setIsLoggedIn(false);
+        }
+    };
+
+    useEffect(() => {
+        console.log(isLoggedIn);
+        handleLoggedIn();
+    }, [isLoggedIn])
 
     return (
         <div className='main-nav'>
@@ -63,9 +94,19 @@ const Navbar = () => {
                             </ul>
                             
                             {/* Navbar Button */}
-                            <div className="theme-btn">
+                            {/* <div className="theme-btn">
                                 <Link to="/login">Login</Link>
-                            </div>
+                            </div> */}
+                            {/* {handleLoggedIn} */}
+                            {
+                                isLoggedIn ? 
+                                    <div className='theme-btn'>
+                                        <Link to="/dashboard/user">Profile</Link>
+                                    </div> :
+                                    <div className='theme-btn'>
+                                        <Link to="/login">Login</Link>
+                                    </div>
+                            }
                         </div>
                     </div>
                 </nav>

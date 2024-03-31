@@ -35,31 +35,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(fileUpload());
-// app.use(session({
-//     secret: "4872bjzxf62xzjf71234z",
-//     resave: false,
-//     saveUninitialized: true
-// }));
-// app.use(passport.initialize());
-// app.use(passport.session());
 
-// passport.use(
-//     new OAuth2Strategy({
-//         clientID: googleOAuthCliendId,
-//         clientSecret: googleOAuthClientSecret,
-//         callbackURL: "/auth/google/callback",
-//         scope: ["profile", "email"]
-//     },
-//     async(accessToken, refreshToken, profile, done) => {
-//         try {
-//             let user = await userdb.findOne({
-//                 googleId:
-//             })
-//         } catch (error) {
-//             return done(error, null)
-//         }
-//     })
-// )
 
 const bufferToStream = (buffer) => {
     return Readable.from(buffer);
