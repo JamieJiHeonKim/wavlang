@@ -1,16 +1,51 @@
 import React from 'react';
-import { Box } from "@mui/material";
-import Header from "./Dashboard/Components/Header/Header";
-import Dashboard from "./Dashboard/Components/Dashboard/Dashboard"
+import Sidebar from './Dashboard/Global/Sidebar';
+import Topbar from './Dashboard/Global/Topbar';
+import './DashboardPage.scss';
+import { Link } from 'react-router-dom';
+import { ColorModeContext, useMode } from '../theme';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { Routes, Route } from 'react-router-dom';
+import Dashboard from './Dashboard/Components/Dashboard/Dashboard'
+import Team from './Dashboard/Components/Team/Team';
+import Contacts from './Dashboard/Components/Contacts/Contacts';
+// import Invoices from '../Invoices/Invoices';
+// import Bar from '../Bar/Bar';
+// import Form from '../Form/Form';
+// import Line from '../Line/Line';
+// import Pie from '../Pie/Pie';
+// import FAQ from '../Faq/Faq';
+// import Geography from '../Geography/Geography';
+// import Calendar from '../Calendar/Calendar';
 
 const DashboardPage = () => {
+    const [theme, colorMode] = useMode();
+
     return (
-        // <Box m="20px">
-        //     <Box display="flex" justifyContent="space-between" alignItems="center">
-        //         <Header title="DASHBOARD" subtitle="Welcome to the dashboard" />
-        //     </Box>
-        // </Box>
-        <Dashboard />
+        <ColorModeContext.Provider value={colorMode}>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <div className='dashboard-background'>
+                    <Sidebar />
+                    <main className='content'>
+                        <Topbar />
+                        <Routes>
+                            <Route path='/' element={<Dashboard />} />
+                            <Route path='/team' element={<Team />} />
+                            <Route path='/contacts' element={<Contacts />} />
+                            {/* <Route path='/invoices' element={<Invoices />} />
+                            <Route path='/form' element={<Form />} />
+                            <Route path='/bar' element={<Bar />} />
+                            <Route path='/pie' element={<Pie />} />
+                            <Route path='/line' element={<Line />} />
+                            <Route path='/faq' element={<FAQ />} />
+                            <Route path='/geography' element={<Geography />} />
+                            <Route path='/calendar' element={<Calendar />} /> */}
+                        </Routes>
+                    </main>
+                </div>
+            </ThemeProvider>
+        </ColorModeContext.Provider>
     );
 };
 

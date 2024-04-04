@@ -1,7 +1,6 @@
 import './App.scss';
 import Home from './pages/About';
 import {Routes, Route} from 'react-router-dom';
-import Services from './pages/Services';
 import BlogsPage from './pages/BlogsPage';
 import PricingPage from './pages/PricingPage';
 import Contactus from './pages/Contact/Contactus';
@@ -21,13 +20,12 @@ function App() {
       <Route path="/transcribe" element={<Transcribe />} />
       <Route path="/updates" element={<BlogsPage />} />
       <Route path="/pricing" element={<PricingPage />} />
-      {/* <Route path="/about" element={<About />} /> */}
       <Route path="/contact" element={<Contactus />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
-      <Route path="/dashboard/user/:userId" element={<DashboardPage />} />
+      <Route path="/dashboard/user" element={<DashboardPage />} />
       <Route path="/verify-email" element={<VerifyEmailPage />} />
       
       <Route path="*" element={<NotFoundPage />} />
