@@ -9,14 +9,14 @@ import { Routes, Route } from 'react-router-dom';
 import Dashboard from './Dashboard/Components/Dashboard/Dashboard'
 import Team from './Dashboard/Components/Team/Team';
 import Contacts from './Dashboard/Components/Contacts/Contacts';
-// import Invoices from '../Invoices/Invoices';
-// import Bar from '../Bar/Bar';
-// import Form from '../Form/Form';
-// import Line from '../Line/Line';
-// import Pie from '../Pie/Pie';
-// import FAQ from '../Faq/Faq';
-// import Geography from '../Geography/Geography';
-// import Calendar from '../Calendar/Calendar';
+import Invoices from './Dashboard/Components/Invoices/Invoices';
+import Bar from './Dashboard/Components/Bar/Bar';
+import Form from './Dashboard/Components/Form/Form';
+import Line from './Dashboard/Components/Line/Line';
+import Pie from './Dashboard/Components/Pie/Pie';
+import FAQ from './Dashboard/Components/Faq/Faq';
+import Geography from './Dashboard/Components/Geography/Geography';
+import Calendar from './Dashboard/Components/Calendar/Calendar';
 
 const DashboardPage = () => {
     const [theme, colorMode] = useMode();
@@ -33,14 +33,15 @@ const DashboardPage = () => {
                             <Route path='/' element={<Dashboard />} />
                             <Route path='/team' element={<Team />} />
                             <Route path='/contacts' element={<Contacts />} />
-                            {/* <Route path='/invoices' element={<Invoices />} />
+                            <Route path='/invoices' element={<Invoices />} />
                             <Route path='/form' element={<Form />} />
+                            <Route path='/calendar' element={<Calendar />} />
+                            <Route path='/faq' element={<FAQ />} />
                             <Route path='/bar' element={<Bar />} />
                             <Route path='/pie' element={<Pie />} />
                             <Route path='/line' element={<Line />} />
-                            <Route path='/faq' element={<FAQ />} />
                             <Route path='/geography' element={<Geography />} />
-                            <Route path='/calendar' element={<Calendar />} /> */}
+                            
                         </Routes>
                     </main>
                 </div>

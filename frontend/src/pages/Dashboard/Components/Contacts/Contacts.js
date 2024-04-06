@@ -10,7 +10,7 @@ const Contacts = () => {
 
     const columns = [
         { field: "id", headerName: "ID", flex: 0.5 },
-        { field: "registerarId", headerName: "Registrar ID" },
+        { field: "registrarId", headerName: "Registrar ID" },
         {
             field: "name",
             headerName: "Name",
@@ -40,7 +40,7 @@ const Contacts = () => {
             flex: 1
         },
         {
-            field: "cidy",
+            field: "city",
             headerName: "City",
             flex: 1
         },

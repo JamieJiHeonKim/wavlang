@@ -185,7 +185,7 @@ function Demo() {
                 </h2>
                 <p>Please Select an Analysis Type & Topic Before Uploading an Audio File</p>
                 <div className='main-page' data-aos="fade-up" data-aos-duration="2000">
-                    <main>
+                    <main className='main-property'>
                         <Analysis 
                             onAnalysisChange={(analysisType) => onAnalysisChange(analysisType)}
                         />

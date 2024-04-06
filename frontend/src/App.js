@@ -12,6 +12,16 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import DashboardPage from './pages/DashboardPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
+import TeamPage from './pages/Dashboard/Components/Team/Team';
+import ContactsPage from './pages/Dashboard/Components/Contacts/Contacts';
+import InvoicesPage from './pages/Dashboard/Components/Invoices/Invoices';
+import FormPage from './pages/Dashboard/Components/Form/Form';
+import CalendarPage from './pages/Dashboard/Components/Calendar/Calendar';
+import FAQPage from './pages/Dashboard/Components/Faq/Faq';
+import BarPage from './pages/Dashboard/Components/Bar/Bar';
+import PiePage from './pages/Dashboard/Components/Pie/Pie';
+import LinePage from './pages/Dashboard/Components/Line/Line';
+import GeographyPage from './pages/Dashboard/Components/Geography/Geography';
 
 function App() {
   return (
@@ -25,7 +35,18 @@ function App() {
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
-      <Route path="/dashboard/user" element={<DashboardPage />} />
+      <Route path="/dashboard/user" element={<DashboardPage />} >
+        <Route path='team' element={<TeamPage />} />
+        <Route path='contacts' element={<ContactsPage />} />
+        <Route path='invoices' element={<InvoicesPage />} />
+        <Route path='form' element={<FormPage />} />
+        <Route path='calendar' element={<CalendarPage />} />
+        <Route path='faq' element={<FAQPage />} />
+        <Route path='bar' element={<BarPage />} />
+        <Route path='pie' element={<PiePage />} />
+        <Route path='line' element={<LinePage />} />
+        <Route path='geography' element={<GeographyPage />} />
+      </Route>
       <Route path="/verify-email" element={<VerifyEmailPage />} />
       
       <Route path="*" element={<NotFoundPage />} />
