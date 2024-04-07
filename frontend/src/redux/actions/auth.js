@@ -1,9 +1,10 @@
 import {AUTH} from "../const/actionsTypes"
 import * as api from "../../api/index"
-
+// import Cookies from 'js-cookie';
 
 export const loadUser = () => async (dispath)=>{
     const localUser = JSON.parse(localStorage.getItem("user_info"))
+    // const localUser = JSON.parse(Cookies.get('token'));
 
     if(localUser){
         dispath({type: AUTH, data: localUser})

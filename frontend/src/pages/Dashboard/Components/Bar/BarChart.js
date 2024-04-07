@@ -76,7 +76,7 @@ const BarChart = ({ isDashboard = false }) => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: isDashboard ? undefined : "country", // changed
+            legend: isDashboard ? null : "country", // changed
             legendPosition: "middle",
             legendOffset: 32,
             }}
@@ -84,7 +84,7 @@ const BarChart = ({ isDashboard = false }) => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: isDashboard ? undefined : "food", // changed
+            legend: isDashboard ? null : "food", // changed
             legendPosition: "middle",
             legendOffset: -40,
             }}

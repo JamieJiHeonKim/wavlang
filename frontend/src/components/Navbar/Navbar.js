@@ -4,6 +4,7 @@ import logo from './../../assets/sitelogo-whitebackground.png';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import Cookies from 'js-cookie';
 
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -36,8 +37,10 @@ const Navbar = () => {
     ];
 
     const handleLoggedIn = async () => {
-        if (localStorage.getItem("token") && localStorage.getItem("email")) {
-            const user_token = localStorage.getItem("token");
+        // if (localStorage.getItem("token") && localStorage.getItem("email")) {
+        if (Cookies.get('token') && Cookies.get('email')) {
+            // const user_token = localStorage.getItem("token");
+            const user_token = Cookies.get('token');
             const decoded = jwtDecode(user_token);
             console.log(decoded.userId);
             console.log(user_token)

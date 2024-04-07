@@ -240,7 +240,7 @@ const Dashboard = () => {
                 >
                     $48,352 revenue generated
                 </Typography>
-                <Typography>Includes extra misc expenditures and costs</Typography>
+                <Typography color={colors.grey[100]} >Includes extra misc expenditures and costs</Typography>
                 </Box>
             </Box>
             <Box
