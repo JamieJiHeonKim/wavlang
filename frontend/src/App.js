@@ -22,20 +22,27 @@ import BarPage from './pages/Dashboard/Components/Bar/Bar';
 import PiePage from './pages/Dashboard/Components/Pie/Pie';
 import LinePage from './pages/Dashboard/Components/Line/Line';
 import GeographyPage from './pages/Dashboard/Components/Geography/Geography';
+import PaymentPage from './pages/PaymentPage';
 
 function App() {
-  return (
+  return (  
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/transcribe" element={<Transcribe />} />
       <Route path="/updates" element={<BlogsPage />} />
       <Route path="/pricing" element={<PricingPage />} />
+      {/* <Route path="/payment" element={<PaymentPage />} /> */}
+      <Route path='/payment' element={<PaymentPage />}>
+        {/* <Route path='pay-as-you-go' element={<PricingPlanOnePage />} />
+        <Route path='monthly-plan' element={<PricingPlanTwoPage />} />
+        <Route path='annul-plan' element={<PricingPlanThreePage />} /> */}
+      </Route>
       <Route path="/contact" element={<Contactus />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
-      <Route path="/dashboard/user" element={<DashboardPage />} >
+      <Route path="/dashboard/:user_id" element={<DashboardPage />} >
         <Route path='team' element={<TeamPage />} />
         <Route path='contacts' element={<ContactsPage />} />
         <Route path='invoices' element={<InvoicesPage />} />

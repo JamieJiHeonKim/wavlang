@@ -46,7 +46,7 @@ const Pricing = () => {
                                         <li>Business Analysis</li> */}
                                     </ul>
                                     <div className="pricingtable-footer">
-                                        <a href="/pricing-table-2" className="btn start-btn">Start Now</a>
+                                        <a href="/payment" className="btn start-btn">Start Now</a>
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +73,7 @@ const Pricing = () => {
                                         <li>Perfect for Regular Use</li>
                                     </ul>
                                     <div className="pricingtable-footer">
-                                        <a href="/pricing-table-2" className="btn start-btn">Start Now</a>
+                                        <a href="/payment" className="btn start-btn">Start Now</a>
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@ const Pricing = () => {
                                         <li>Perfect for Long-term Use</li>
                                     </ul>
                                     <div className="pricingtable-footer">
-                                        <a href="/pricing-table-2" className="btn start-btn" >Start Now</a>
+                                        <a href="/payment" className="btn start-btn" >Start Now</a>
                                     </div>
                                 </div>
                             </div>

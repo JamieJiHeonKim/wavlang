@@ -13,6 +13,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Alert } from '@mui/material';
 import googleIcon from '../../assets/google.png';
 import Cookies from 'js-cookie';
+import { useCookies } from 'react-cookie';
 
 const LoginForm = () => {
     const location = useLocation();
@@ -24,6 +25,7 @@ const LoginForm = () => {
     const [notVerified, setNotVerified] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
     const handleGoogleLoginSuccess = (tokenResponse) => {
         const accessToken = tokenResponse.access_token;
@@ -76,8 +78,14 @@ const LoginForm = () => {
                 setNotVerified(false);
                 // localStorage.setItem("token", res.data.user.token);
                 // localStorage.setItem("email", emailInput);
-                Cookies.set('token', res.data.user.token, { expires: 1, secure: true });
-                Cookies.set('email', emailInput, { expires: 1, secure: false });
+
+                setCookie('access-token', res.data.user.token, {
+                    path: "/", maxAge: 14400
+                });
+                setCookie('email', emailInput);
+
+                // Cookies.set('token', res.data.user.token, { expires: 1, secure: true });
+                // Cookies.set('email', emailInput, { expires: 1, secure: false });
                 // userAuthenticated();
                 navigate('/');
             } else {
@@ -99,7 +107,7 @@ const LoginForm = () => {
                 .get("http://localhost:8080/user/isUserAuth", {
                     headers: {
                         // "x-access-token": localStorage.getItem("token"),
-                        "x-access-token": Cookies.get('token')
+                        "x-access-token": Cookies.get('access-token')
                     },
                 }).then((response) => {
                     console.log(response);

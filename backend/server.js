@@ -16,6 +16,7 @@ const OAuth2Strategy = require("passport-google-oauth2").Strategy;
 const userdb = require('./models/UserModel');
 const verificationTokendb = require('./models/VerificationToken');
 // const fs = require("fs").promises;
+const stripe = require("./routes/stripe");
 
 require('dotenv').config()
 
@@ -23,6 +24,7 @@ const apiKey = process.env.REACT_APP_ASSEMBLY_API_KEY;
 const baseUrl = 'https://api.assemblyai.com/v2';
 const googleOAuthCliendId = process.env.GOOGLE_CLIENT_ID;
 const googleOAuthClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+
 
 const userRoutes = require('./routes/userRoutes');
 
@@ -63,6 +65,7 @@ app.get("/api", (req, res) => {
 });
 
 app.use('/api', userRoutes);
+app.use('/api/stripe', stripe);
 app.use((req, res, next) => {
     console.log(req.path, req.method);
     next();
