@@ -93,7 +93,7 @@ function TranscribeWhisper({file, topic, analysisType, analysisLanguage}) {
         }
     };
 
-        useEffect(() => {
+    useEffect(() => {
         fetchAudioFile();
     }, [file]);
 
@@ -238,8 +238,7 @@ function TranscribeWhisper({file, topic, analysisType, analysisLanguage}) {
             <br />
             {analysisLoaded ? <div className='text-body'>{keyPoints}</div> : <SpinningCircles className='loadingIcon' fill='#919191' stroke="transparent" strokeOpacity={.2} speed={1.25} />}
             <br />
-        </div>
-        
+        </div>  
     );
 };  
   

@@ -14,7 +14,7 @@ const Services = () => {
             <Symptoms />
             <Gallery />
             <Appointment />
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 };

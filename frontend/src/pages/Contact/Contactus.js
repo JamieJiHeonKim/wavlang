@@ -18,7 +18,7 @@ const Contactus = () => {
             <section className='contact-form-area' data-aos="fade-up" data-aos-duration="1500">
                 <ContactForm />
             </section>
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 };

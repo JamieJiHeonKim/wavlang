@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode'; // make sure the import is correct
+import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
 
 export const AuthContext = createContext(null);
@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     const loginAuth = (userData) => {
         setIsLoggedIn(true);
         setUser(userData);
-        forceUpdate({}); // forcing re-render
+        forceUpdate({});
     };
 
     useEffect(() => {
@@ -54,11 +54,11 @@ export const AuthProvider = ({ children }) => {
         user,
         setIsLoggedIn,
         setUser,
-        loginAuth // <-- provide this function to components
+        loginAuth
     };
 
     return (
-        <AuthContext.Provider value={value}> {/* Use the `value` here */}
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     );

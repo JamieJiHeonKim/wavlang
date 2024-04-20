@@ -8,7 +8,7 @@ const NotFoundPage = () => {
         <>
             {/* <Navbar /> */}
             <PageNotFound />
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 };

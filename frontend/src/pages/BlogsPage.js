@@ -20,7 +20,7 @@ const BlogsPage = () => {
                     </div>
                 </div>
             </section>
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 };

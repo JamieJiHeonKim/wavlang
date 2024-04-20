@@ -8,7 +8,7 @@ const PaymentPage = () => {
         <>
             {/* <Navbar /> */}
             <Payment />
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 };

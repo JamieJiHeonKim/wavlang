@@ -55,7 +55,6 @@ const VerifyEmail = () => {
         e.preventDefault();
         try {
             const {data} = await axios.post(
-                // `${baseUrl}/verify-email?id=${id}`,
                 `${baseUrl}/verify-email?id=${id}`,
                 {otp:OTP, userId: id}
             );

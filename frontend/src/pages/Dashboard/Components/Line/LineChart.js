@@ -43,7 +43,7 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
                 },
             },
             }}
-            colors={isDashboard ? { datum: "color" } : { scheme: "nivo" }} // added
+            colors={isDashboard ? { datum: "color" } : { scheme: "nivo" }}
             margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
             xScale={{ type: "point" }}
             yScale={{
@@ -62,17 +62,17 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
             tickSize: 0,
             tickPadding: 5,
             tickRotation: 0,
-            legend: isDashboard ? null : "transportation", // added
+            legend: isDashboard ? null : "transportation",
             legendOffset: 36,
             legendPosition: "middle",
             }}
             axisLeft={{
             orient: "left",
-            tickValues: 5, // added
+            tickValues: 5,
             tickSize: 3,
             tickPadding: 5,
             tickRotation: 0,
-            legend: isDashboard ? null : "count", // added
+            legend: isDashboard ? null : "count",
             legendOffset: -40,
             legendPosition: "middle",
             }}

@@ -8,7 +8,7 @@ const PricingPage = () => {
         <>
             {/* <Navbar /> */}
             <Pricing />
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 };

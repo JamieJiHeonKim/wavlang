@@ -11,7 +11,6 @@ const BarChart = ({ isDashboard = false }) => {
         <ResponsiveBar
             data={data}
             theme={{
-            // added
             axis: {
                 domain: {
                 line: {
@@ -76,7 +75,7 @@ const BarChart = ({ isDashboard = false }) => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: isDashboard ? null : "country", // changed
+            legend: isDashboard ? null : "country",
             legendPosition: "middle",
             legendOffset: 32,
             }}
@@ -84,7 +83,7 @@ const BarChart = ({ isDashboard = false }) => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: isDashboard ? null : "food", // changed
+            legend: isDashboard ? null : "food",
             legendPosition: "middle",
             legendOffset: -40,
             }}

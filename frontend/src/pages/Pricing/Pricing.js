@@ -10,9 +10,8 @@ import { jwtDecode } from 'jwt-decode';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
-// Task 2: Buttons on Pricing page should direct the user to Login page.
-// If already logged in, take the user to the payment page.
-// Restrict users from sharing accounts, as this could financially hurt me
+// Task: Stripe integration testing
+// Task: Custom price input for Pay-As-You-Go plan
 
 const Modal = ({ isOpen, onClose, children }) => {
     if (!isOpen) return null;
@@ -80,36 +79,11 @@ const Pricing = () => {
         },
     ];
 
-    // const isAuthenticated = async () => {
-    //     const user_token = Cookies.get('access-token');
-    //     const decoded = jwtDecode(user_token);
-    //     const email = Cookies.get('email');
-    //     if (user_token && email) {
-    //         try {
-    //             const res = await axios.get(`http://localhost:8080/api/user/authenticated`, {
-    //                 headers: { 'x-access-token': decoded.userId }
-    //             });
-    //             if (res.data.data.email === email) {
-    //                 setIsVerified(true);
-    //                 return user_token & email;
-    //             } else {
-    //                 setIsVerified(false);
-    //             }
-    //         } catch (err) {
-    //             console.error(err);
-    //             setIsVerified(false);
-    //         }
-    //     } else {
-    //         setIsVerified(false);
-    //     }
-    // }
-
     const isAuthenticated = async () => {
         const userToken = Cookies.get('access-token');
         const userEmail = Cookies.get('email');
         if (!userToken || !userEmail) {
             setIsVerified(false);
-            // navigate('/login');
             return false;
         }
         try {
@@ -125,13 +99,11 @@ const Pricing = () => {
                 return true;
             } else {
                 setIsVerified(false);
-                // navigate('/login');
                 return false;
             }
         } catch (err) {
             console.error(err);
             setIsVerified(false);
-            // navigate('/login');
             return false;
         }
     };
@@ -143,7 +115,7 @@ const Pricing = () => {
             setModalOpen(true);
             return;
         }
-        const amount = Math.round(plan.price * 100); // Convert dollars to cents
+        const amount = Math.round(plan.price * 100);
         try {
             const response = await fetch('http://localhost:8080/api/stripe/create-payment-intent', {
                 method: 'POST',
@@ -156,7 +128,7 @@ const Pricing = () => {
                 const paymentIntent = await response.json();
                 setClientSecret(paymentIntent.clientSecret);
                 setSelectedPlan(plan)
-                setModalOpen(true); // Open the modal upon successful retrieval of the clientSecret
+                setModalOpen(true);
             }
             else {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -262,21 +234,19 @@ const Pricing = () => {
                         </div>
                         <div className="container">
                             <br /><br /><br />
-                            <p>If you would like to talk about the Enterprise Plan, please contact us at admin@wavlang.com</p>
+                            {/* <p>If you would like to talk about the Enterprise Plan, please contact us at admin@wavlang.com</p> */}
                         </div>
                     </div>
                 </div>
             </div>
             <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
                 {isVerified ? (
-                    // If the user is logged in, display the Payment component
                     clientSecret && selectedPlan && (
                         <Elements stripe={stripePromise}>
                             <Payment clientSecret={clientSecret} planDetails={selectedPlan} />
                         </Elements>
                     )
                 ) : (
-                    // If the user is not logged in, display a prompt to log in
                     <div className='login-prompt'>
                         <h2>Access Restricted</h2>
                         <p style={{ paddingBottom: '15px', textAlign: 'center' }}>Please log in to proceed with payment.</p>

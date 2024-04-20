@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import './TranscribePage.scss';
 import AudioPlayer from '../AudioPlayer';
-import Transcribe from '../Whisper/TranscribeWhisper';
-// import Transcribe from '../AssemblyAI/TranscribeAssembly';
+// import Transcribe from '../Whisper/TranscribeWhisper';
+import Transcribe from '../AssemblyAI/TranscribeAssembly';
 import DropFileInput from '../DropFileInput/DropFileInput';
 import Analysis from '../Analysis/Analysis';
 import Alert from 'react-bootstrap/Alert';
@@ -354,10 +354,10 @@ function TranscribePage() {
                             />
                         </div>
                     { fileUploaded ? <AudioPlayer file={URL.createObjectURL(file)} fileName={file.name} /> : <></> }
-                    {/* <button type="submit" className="btn appointment-btn" onClick={handleTranscribeButton}>
+                    <button type="submit" className="btn appointment-btn" onClick={handleTranscribeButton}>
                         Transcribe
-                    </button> */}
-                    { file ? handleOverSizeFile(file) : null}
+                    </button>
+                    {/* { file ? handleOverSizeFile(file) : null} */}
                     { confirmation ? <Transcribe file={file} analysisType={analysisType} topic={topic} analysisLanguage={analysisLanguage} /> : <Transcribe /> }
                     </main>
                 </div>

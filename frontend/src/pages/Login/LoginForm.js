@@ -86,25 +86,6 @@ const LoginForm = () => {
         }
     };
 
-    // const userAuthenticated = async () => {
-    //     try {
-    //         const res = await axios
-    //             .get("http://localhost:8080/api/user/authenticated", {
-    //                 headers: {
-    //                     // "x-access-token": localStorage.getItem("token"),
-    //                     "x-access-token": Cookies.get('access-token')
-    //                 },
-    //             }).then((response) => {
-    //                 console.log(response);
-    //             }
-    //         );
-    //     } catch (err) {
-    //         if(err.response) {
-    //             console.error(err.response);
-    //         }
-    //     }
-    // };
-
     useEffect(() => {
     }, [response, isMessageReady, email, password, notVerified]);
 
@@ -137,13 +118,6 @@ const LoginForm = () => {
                             </button>
                             <a href='/forgot-password' className='forgotpassword-url'>Forgot password?</a>
                             <p className='signup' >Don't have an account? <a href='/signup' className='signup-url' >Sign up</a></p>
-                            {/* <span className='has-separator'>Or</span>
-                            <button className="google-btn" onClick={() => login()}>
-                                <div className="google-icon-wrapper">
-                                    <img className="google-icon" src={googleIcon} />
-                                    <p>Sign in with Google</p>
-                                </div>
-                            </button> */}
                         </form>
                         {notVerified ? 
                             <Alert severity="warning" color="warning" style={{ maxWidth: '550px', textAlign:'center' }}>

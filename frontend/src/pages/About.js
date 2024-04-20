@@ -16,7 +16,7 @@ const About = () => {
             {/* <Safety /> */}
             {/* <Team /> */}
             {/* <Faq /> */}
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 };

@@ -108,7 +108,6 @@ const ResetPassword = () => {
         });
     
         if (formIsValid) {
-            // console.log('input:', input);
             resetPassword(input.password);
         } else {
             setIsModalOpen(true);
@@ -121,10 +120,8 @@ const ResetPassword = () => {
                 `${baseUrl}/verify-token?token=${token}&id=${id}`
             );
             setBusy(false);
-            // console.log("data:", data);
         } catch (error) {
             setIsError(true);
-            // console.log(isError);
             if(error?.response.data) {
                 const { data } = error.response;
                 if(!data.success) {

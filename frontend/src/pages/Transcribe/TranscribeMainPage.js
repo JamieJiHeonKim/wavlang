@@ -8,7 +8,7 @@ const About = () => {
         <>
             {/* <Navbar /> */}
             <Transcribe />
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 };

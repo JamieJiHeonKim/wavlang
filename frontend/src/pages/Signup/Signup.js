@@ -213,7 +213,6 @@ const Signup = () => {
                 },
             });
             console.log("A new user has been added in the system.");
-            // const { data } = await axios.post("http://localhost:8080/api/verify-email")
             navigate(`/verify-email?id=${data._id}`, { state: { message: 'A verification email to create a new user has been sent to your inbox' } });
         } catch(err) {
             console.error("An error occurred:", err);
@@ -221,7 +220,6 @@ const Signup = () => {
                 setMessageType(MESSAGE_TYPES.EMAIL_EXISTS);
                 setIsModalOpen(true);
             } else {
-                // handle other errors that aren't related to an existing email
             }
         }
     };
@@ -305,7 +303,7 @@ const Signup = () => {
                                 open={isModalOpen}
                                 onClose={() => {
                                     setIsModalOpen(false);
-                                    setMessageType(MESSAGE_TYPES.FORM_RULES); // Reset message type upon closing
+                                    setMessageType(MESSAGE_TYPES.FORM_RULES);
                                 }}
                                 messageType={messageType}
                             />

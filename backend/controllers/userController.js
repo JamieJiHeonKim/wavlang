@@ -94,21 +94,6 @@ const verifyEmail = async (req, res) => {
     user.verified = true;
     await user.save();
     await VerificationToken.findByIdAndDelete(token._id);
-
-    // mailTransport().sendMail({
-    //     from: "do_not_reply@wavlang.com",
-    //     to: user.email,
-    //     subject: "WavLang: Verify your email",
-    //     html: plainEmailTemplate(
-    //         "Email Verified Successfully",
-    //         "Thank you for choosing our service!"
-    //     ),
-    // });
-    // res.json({
-    //     success: true,
-    //     subject: "WavLang: Email verified successfully",
-    //     message: "Your email is verified", user: {name: user.name, email: user.email, id: user._id}
-    // })
 }
 
 const verifyJWT = (req, res, next) => {
@@ -120,7 +105,7 @@ const verifyJWT = (req, res, next) => {
     }
 
     const userId = token;
-    console.log('Decoded User ID:', userId); // This should be a string.
+    console.log('Decoded User ID:', userId);
 
     User.findById(userId).exec()
         .then(user => {
@@ -143,7 +128,6 @@ const verifyJWT = (req, res, next) => {
             console.error('Error finding user:', err);
             res.status(500).send({ message: 'Error finding user.' });
         });
-    // });
 };
 
 const resendVerificationCode = async (req, res) => {
@@ -300,13 +284,6 @@ const resetPassword = async (req, res) => {
         user.password = password.trim();
         await user.save();
         await ResetToken.findOneAndDelete({owner: user._id});
-
-        // mailTransport().sendMail({
-        //     from: 'do_not_reply@wavlang.com',
-        //     to: user.email,
-        //     subject: "WavLang: Password Reset Successful",
-        //     html: newPasswordEmailTemplate("Password Reset Successful", "Try logging in with your new password!", `http://localhost:3000/login`)
-        // });
     
         res.json({success: true, message: "Password Reset Successful"})
     } catch (error) {

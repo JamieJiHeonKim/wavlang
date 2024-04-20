@@ -1,4 +1,3 @@
-// initializing installed dependencies
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer')
@@ -15,7 +14,6 @@ const passport = require("passport");
 const OAuth2Strategy = require("passport-google-oauth2").Strategy;
 const userdb = require('./models/UserModel');
 const verificationTokendb = require('./models/VerificationToken');
-// const fs = require("fs").promises;
 const stripeRoutes = require("./routes/StripeRoutes");
 
 require('dotenv').config()
@@ -114,6 +112,7 @@ function getAssemblyAIFile (audioData) {
 };
 
 app.post('/api/transcribe_assemblyai', async (req, res) => {
+    console.log(req.files);
     try {
         if (!req.files || !req.files.audioFile) {
             return res.status(400).json({ message: 'Audio file is required.' });
@@ -124,8 +123,7 @@ app.post('/api/transcribe_assemblyai', async (req, res) => {
         const uploadUrl = uploadResponse.data.upload_url;
 
         const data = {
-            audio_url: uploadUrl,
-            speaker_labels: true
+            audio_url: uploadUrl
         };
 
         const url = `${baseUrl}/transcript`;
@@ -146,7 +144,7 @@ app.post('/api/transcribe_assemblyai', async (req, res) => {
                 //     console.log(`Speaker ${utterance.speaker}: ${utterance.text}`)
                 // }
                 console.log(transcriptionResult.text);
-                return res.json({ transcriptionResult, transcriptionHighlight });
+                return res.json({ transcriptionResult });
             } else if (transcriptionResult.status === 'error') {
                 throw new Error(`Transcription failed: ${transcriptionResult.error}`);
             } else {
