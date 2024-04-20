@@ -16,7 +16,7 @@ const OAuth2Strategy = require("passport-google-oauth2").Strategy;
 const userdb = require('./models/UserModel');
 const verificationTokendb = require('./models/VerificationToken');
 // const fs = require("fs").promises;
-const stripe = require("./routes/stripe");
+const stripeRoutes = require("./routes/StripeRoutes");
 
 require('dotenv').config()
 
@@ -60,12 +60,12 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
-app.get("/api", (req, res) => {
-    res.json({ message: "Hello from server!" });
-});
+// app.get("/api", (req, res) => {
+//     res.json({ message: "Hello from server!" });
+// });
 
 app.use('/api', userRoutes);
-app.use('/api/stripe', stripe);
+app.use('/api/stripe', stripeRoutes);
 app.use((req, res, next) => {
     console.log(req.path, req.method);
     next();

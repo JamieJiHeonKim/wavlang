@@ -6,7 +6,7 @@ import Footer from '../sections/Footer/Footer';
 const PaymentPage = () => {
     return (
         <>
-            <Navbar />
+            {/* <Navbar /> */}
             <Payment />
             <Footer />
         </>

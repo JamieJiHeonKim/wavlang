@@ -19,9 +19,18 @@ router.get('/user/verify-token', isResetTokenValid, (req, res) => {
 router.get('/user/verify-email', isEmailVerificationTokenValid, (req, res) => {
     res.json({success: true})
 });
-// router.get('/user/isUserAuth', verifyJWT, (req, res) => {
-//     res.json({success: true})
-// });
+router.get('/user/authenticated', verifyJWT, (req, res) => {
+    const user = req.user;
+    res.json({
+        success: true,
+        data: {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            verified: user.verified
+        }
+    })
+});
 
 router.get('/user/:userId', findUserWithJWT, (req, res) => {
     const userId = req.params.userId;

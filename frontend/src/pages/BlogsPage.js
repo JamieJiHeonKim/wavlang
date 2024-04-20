@@ -9,7 +9,7 @@ const BlogsPage = () => {
     
     return (
         <>
-            <Navbar />
+            {/* <Navbar /> */}
             <PageTitle />
             <section className='pb-70' data-aos="fade-up" data-aos-duration="1500">
                 <div className="container">

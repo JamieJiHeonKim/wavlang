@@ -14,6 +14,7 @@ import { Alert } from '@mui/material';
 import googleIcon from '../../assets/google.png';
 import Cookies from 'js-cookie';
 import { useCookies } from 'react-cookie';
+import { useAuth } from '../../components/AuthContext/AuthContext';
 
 const LoginForm = () => {
     const location = useLocation();
@@ -26,6 +27,7 @@ const LoginForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const { loginAuth } = useAuth();
 
     const handleGoogleLoginSuccess = (tokenResponse) => {
         const accessToken = tokenResponse.access_token;
@@ -35,17 +37,6 @@ const LoginForm = () => {
     const login = useGoogleLogin({
         onSuccess: handleGoogleLoginSuccess
     });
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     if (email !== "" && password !== "") {
-    //         dispatch(signin({
-    //             email,
-    //             password
-    //         },
-    //         navigate))
-    //     };
-    // };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -76,17 +67,11 @@ const LoginForm = () => {
                 });
             if(res.data.user.verified) {
                 setNotVerified(false);
-                // localStorage.setItem("token", res.data.user.token);
-                // localStorage.setItem("email", emailInput);
-
                 setCookie('access-token', res.data.user.token, {
                     path: "/", maxAge: 14400
                 });
                 setCookie('email', emailInput);
-
-                // Cookies.set('token', res.data.user.token, { expires: 1, secure: true });
-                // Cookies.set('email', emailInput, { expires: 1, secure: false });
-                // userAuthenticated();
+                loginAuth(res);
                 navigate('/');
             } else {
                 setNotVerified(true);
@@ -101,27 +86,26 @@ const LoginForm = () => {
         }
     };
 
-    const userAuthenticated = async () => {
-        try {
-            const res = await axios
-                .get("http://localhost:8080/user/isUserAuth", {
-                    headers: {
-                        // "x-access-token": localStorage.getItem("token"),
-                        "x-access-token": Cookies.get('access-token')
-                    },
-                }).then((response) => {
-                    console.log(response);
-                }
-            );
-        } catch (err) {
-            if(err.response) {
-                console.error(err.response);
-            }
-        }
-    };
+    // const userAuthenticated = async () => {
+    //     try {
+    //         const res = await axios
+    //             .get("http://localhost:8080/api/user/authenticated", {
+    //                 headers: {
+    //                     // "x-access-token": localStorage.getItem("token"),
+    //                     "x-access-token": Cookies.get('access-token')
+    //                 },
+    //             }).then((response) => {
+    //                 console.log(response);
+    //             }
+    //         );
+    //     } catch (err) {
+    //         if(err.response) {
+    //             console.error(err.response);
+    //         }
+    //     }
+    // };
 
     useEffect(() => {
-        // console.log(response.message)
     }, [response, isMessageReady, email, password, notVerified]);
 
     return (

@@ -13,7 +13,7 @@ const SingleBlog = () => {
 
     return (
         <>
-            <Navbar />
+            {/* <Navbar /> */}
             <section className='section-bg pb-70 single-blog'>
                 <div className="container">
                     <div className="row">

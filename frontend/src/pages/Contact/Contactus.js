@@ -8,7 +8,7 @@ import Footer from '../../sections/Footer/Footer';
 const Contactus = () => {
     return (
         <>
-            <Navbar />
+            {/* <Navbar /> */}
             <div className='contact-section'>
                 <h2 className='header'>
                     Contact Us

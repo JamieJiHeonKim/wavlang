@@ -112,27 +112,39 @@ const verifyEmail = async (req, res) => {
 }
 
 const verifyJWT = (req, res, next) => {
-    console.log("nice");
     const token = req.headers['x-access-token'];
-    console.log(token);
-    // const { userId } = req.body;
+    const userEmail = req.headers['email'];
 
-    if(!token) {
-        return res.status(403).send({ auth: false, message: 'No token provided.' });
-    } else {
-        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-            if (err) {
-                return res.status(500).send({
-                    auth: false,
-                    message: 'Failed to authenticate token.'
-                });
-            } else {
-                req.userId = decoded.id;
-                next();
-            }
-        });
+    if(!token || !userEmail) {
+        return res.status(403).send({ auth: false, message: 'No token or email provided.' });
     }
-}
+
+    const userId = token;
+    console.log('Decoded User ID:', userId); // This should be a string.
+
+    User.findById(userId).exec()
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({
+                    auth: false,
+                    message: 'No user found'
+                })
+            }
+            if (user.email !== userEmail) {
+                return res.status(403).send({
+                    auth: false,
+                    message: "Email does not match."
+                })
+            }
+            req.user = user;
+            next();
+        })
+        .catch(err => {
+            console.error('Error finding user:', err);
+            res.status(500).send({ message: 'Error finding user.' });
+        });
+    // });
+};
 
 const resendVerificationCode = async (req, res) => {
     const { userId } = req.body;

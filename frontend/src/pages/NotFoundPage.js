@@ -6,7 +6,7 @@ import Footer from '../sections/Footer/Footer';
 const NotFoundPage = () => {
     return (
         <>
-            <Navbar />
+            {/* <Navbar /> */}
             <PageNotFound />
             <Footer />
         </>

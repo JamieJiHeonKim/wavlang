@@ -1,14 +1,16 @@
-import { React, useState, useEffect } from 'react';
+import { React, useEffect } from 'react';
 import './Navbar.scss';
 import logo from './../../assets/sitelogo-whitebackground.png';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
-import Cookies from 'js-cookie';
-// import { useCookies } from 'react-cookie';
+import { useAuth } from '../AuthContext/AuthContext';
 
 const Navbar = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { isLoggedIn } = useAuth();
+
+    useEffect(() => {
+        console.log("Authentication state changed. isLoggedIn:", isLoggedIn);
+    }, [useAuth()])
+
 
     const navbarItems = [
         {
@@ -23,10 +25,6 @@ const Navbar = () => {
             name: 'Pricing',
             path: '/pricing',
         },
-        // {
-        //     name: 'About Us',
-        //     path: '/about',
-        // },
         {
             name: 'Updates',
             path: '/updates',
@@ -36,36 +34,6 @@ const Navbar = () => {
             path: '/contact',
         },
     ];
-
-    const handleLoggedIn = async () => {
-        // if (localStorage.getItem("token") && localStorage.getItem("email")) {
-        if (Cookies.get('access-token') && Cookies.get('email')) {
-            // const user_token = localStorage.getItem("token");
-            const user_token = Cookies.get('access-token');
-            const decoded = jwtDecode(user_token);
-            console.log(decoded.userId);
-            console.log(user_token)
-            try {
-                const res = await axios.get(`http://localhost:8080/api/user/${decoded.userId}`, {
-                    headers: { 'x-access-token': decoded.userId }
-                });
-                console.log(res);
-                setIsLoggedIn(true);
-            } catch (err) {
-                if (err.response) {
-                    console.error(err.response);
-                }
-            setIsLoggedIn(false);
-            }
-        } else {
-            setIsLoggedIn(false);
-        }
-    };
-
-    useEffect(() => {
-        console.log(isLoggedIn);
-        handleLoggedIn();
-    }, [isLoggedIn])
 
     return (
         <div className='main-nav'>
@@ -91,17 +59,8 @@ const Navbar = () => {
                                         </li>
                                     );
                                 })
-                                    // <li className="nav-item" key={navSingle.id}>
-                                    //     <Link className="nav-link" to={navSingle.path}>{navSingle.name}</Link>
-                                    // </li>
                                 }
                             </ul>
-                            
-                            {/* Navbar Button */}
-                            {/* <div className="theme-btn">
-                                <Link to="/login">Login</Link>
-                            </div> */}
-                            {/* {handleLoggedIn} */}
                             {
                                 isLoggedIn ? 
                                     <div className='theme-btn'>
