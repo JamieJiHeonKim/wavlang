@@ -1,6 +1,7 @@
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../../../theme";
 import { mockTransactions } from "../../Data/mockData";
+import Cookies from 'js-cookie';
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import EmailIcon from "@mui/icons-material/Email";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
@@ -16,12 +17,14 @@ import ProgressCircle from "../ProgressCircle/ProgressCircle";
 const Dashboard = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const firstName = Cookies.get('firstName');
+    const welcome = 'Welcome to ' + firstName + "'s dashboard!";
 
     return (
         <Box m="20px">
             {/* HEADER */}
             <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
+            <Header title="DASHBOARD" subtitle={welcome} />
 
             <Box>
                 <Button

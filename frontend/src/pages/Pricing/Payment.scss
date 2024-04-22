@@ -199,6 +199,28 @@ button {
     align-self: stretch; /* Stretch to fill the parent's height */
 } 
 
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+  
+.dollar-sign {
+    position: absolute;
+    margin-left: 10px;
+    color: #000;
+    margin-bottom: 10px;
+}
+  
+.dollar-input {
+    padding-left: 20px;
+    width: 100%;
+}
+  
+input[type='number'] {
+    padding-left: 20px; /* Make room for the dollar sign */
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .modal-content {

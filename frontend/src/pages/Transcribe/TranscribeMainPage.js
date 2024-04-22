@@ -1,16 +1,30 @@
-import React from 'react';
-import Navbar from '../../components/Navbar/Navbar';
+import React, { useEffect, useContext } from 'react';
 import Transcribe from './TranscribePage/TranscribePage';
-import Footer from '../../sections/Footer/Footer';
+import LoggedOutTranscribePage from './TranscribePage/LoggedOutTranscribePage';
+import { useAuth } from '../../components/AuthContext/AuthContext';
+import Cookies from 'js-cookie';
 
-const About = () => {
+
+const TranscribeMainPage = () => {
+    const { isLoggedIn, setIsLoggedIn } = useAuth();
+    const userFirstName = Cookies.get('firstName');
+    const userLastName = Cookies.get('lastName');
+
+    useEffect(() => {
+        console.log("Authentication state changed. isLoggedIn:", isLoggedIn);
+    // }, [useAuth()]);
+    }, [isLoggedIn]);
+
     return (
         <>
-            {/* <Navbar /> */}
-            <Transcribe />
-            {/* <Footer /> */}
+            {isLoggedIn ? (
+                <Transcribe />
+            ) : (
+                <LoggedOutTranscribePage />
+            )}
+            
         </>
     );
 };
 
-export default About;
+export default TranscribeMainPage;

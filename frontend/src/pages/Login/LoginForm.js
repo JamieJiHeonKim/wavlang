@@ -71,6 +71,8 @@ const LoginForm = () => {
                     path: "/", maxAge: 14400
                 });
                 setCookie('email', emailInput);
+                setCookie('firstName', res.data.user.firstName);
+                setCookie('lastName', res.data.user.lastName);
                 loginAuth(res);
                 navigate('/');
             } else {

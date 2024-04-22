@@ -25,6 +25,7 @@ const CARD_OPTIONS = {
 const Payment = ({ clientSecret, planDetails }) => {
     const stripe = useStripe();
     const elements = useElements();
+    const [customAmount, setCustomAmount] = useState(100);
     const [billingDetails, setBillingDetails] = useState({
         name: '',
         email: '',
@@ -33,16 +34,35 @@ const Payment = ({ clientSecret, planDetails }) => {
             city: '',
             state: '',
             postal_code: ''
-        },
-        phone: ''
+        }
     });
+
+    const handleCustomAmountChange = (e) => {
+        const value = e.target.value;
+        const intValue = Math.floor(parseFloat(value) * 100); // Convert dollars to cents
+        if (!isNaN(intValue) && intValue >= 100) {
+            setCustomAmount(intValue);
+        }
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setBillingDetails((prevDetails) => ({
-            ...prevDetails,
-            [name]: value
-        }));
+        const amount = customAmount;
+
+        if (name.includes('.')) {
+            const parts = name.split('.');
+            const [key, subkey] = parts;
+    
+            setBillingDetails((prevDetails) => ({
+                ...prevDetails,
+                [key]: { ...prevDetails[key], [subkey]: value }
+            }));
+        } else {
+            setBillingDetails((prevDetails) => ({
+                ...prevDetails,
+                [name]: value
+            }));
+        }
     };
 
     const handleSubmit = async (event) => {
@@ -78,7 +98,7 @@ const Payment = ({ clientSecret, planDetails }) => {
             console.error('[payment error]', result.error.message);
         } else {
             // The payment has been processed!
-            if (result.paymentIntent.status === 'succeeded') {
+            if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
                 // Show a success message to your customer
                 console.log('Payment succeeded!');
                 // Here you might want to navigate the user to a success page or update the UI state
@@ -87,7 +107,7 @@ const Payment = ({ clientSecret, planDetails }) => {
     };
 
     const isPayAsYouGo = (planName) => {
-        if (planName == 'Pay As You Go') {
+        if (planName === 'Pay As You Go') {
             return true;
         } else {
             return false;
@@ -104,7 +124,6 @@ const Payment = ({ clientSecret, planDetails }) => {
                             <>
                                 <h2>{planDetails?.name}</h2>
                                 <p>Cost: $0.10/min of the audio file</p>
-                                <a>Minimum charged accepted is <p>$0.50</p></a> 
                             </>
                             ) : (
                             <>
@@ -119,7 +138,8 @@ const Payment = ({ clientSecret, planDetails }) => {
                         <li key={index}>{benefit}</li>
                         ))}
                     </ul>
-                    <p>Recurrence: {planDetails?.recurrence}</p>
+                    <a>Recurrence: <p>{planDetails?.recurrence}</p></a>
+                    <a>Minimum charged accepted is <p>$1.00</p></a> 
                 </div>
 
                 {/* Divider */}
@@ -136,10 +156,24 @@ const Payment = ({ clientSecret, planDetails }) => {
                     <input type="text" name="address.city" placeholder="City" required onChange={handleInputChange} />
                     <input type="text" name="address.state" placeholder="State" required onChange={handleInputChange} />
                     <input type="text" name="address.postal_code" placeholder="Postal Code" required onChange={handleInputChange} />
-                    <input type="tel" name="phone" placeholder="Phone" required onChange={handleInputChange} />
+                    <div className="input-container">
+                        <span className='dollar-sign'>$</span>
+                        <input
+                            className='dollar-input'
+                            type="number"
+                            id="customAmount"
+                            placeholder="Custom Amount (min $1.00)"
+                            aria-label="Custome Amount"
+                            value={(customAmount / 100).toFixed(2)}
+                            min="1.00"
+                            step="0.50"
+                            onChange={handleCustomAmountChange}
+                            required
+                        />
+                    </div>
                     <CardElement options={CARD_OPTIONS} />
                     <button type="submit" disabled={!stripe || !clientSecret} className="payment-button">
-                    Pay
+                        Pay ${customAmount / 100}
                     </button>
                 </form>
                 </div>

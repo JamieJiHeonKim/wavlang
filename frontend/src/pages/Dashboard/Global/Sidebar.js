@@ -1,9 +1,11 @@
 import { useState } from "react";
+import Cookies from 'js-cookie';
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../../theme";
+import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
@@ -37,6 +39,8 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 };
 
 const Sidebar = () => {
+  const firstName = Cookies.get('firstName');
+  const lastName = Cookies.get('lastName');
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -108,7 +112,7 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Jamie Kim
+                  {firstName} {lastName}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
                   VP Admin
@@ -119,9 +123,16 @@ const Sidebar = () => {
 
           <Box paddingLeft={isCollapsed ? null : "10%"}>
             <Item
+              title="Home"
+              to="/"
+              icon={<HomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
               title="Dashboard"
               to="/dashboard/user"
-              icon={<HomeOutlinedIcon />}
+              icon={<DashboardOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

@@ -196,7 +196,7 @@ const signIn = async (req, res) => {
             lastName: user.lastName,
             email: user.email,
             verified: user.verified,
-            id: user._id,
+            // id: user._id,
             token: token
         }
     })
