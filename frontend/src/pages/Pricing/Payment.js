@@ -22,10 +22,11 @@ const CARD_OPTIONS = {
     },
 };
 
-const Payment = ({ clientSecret, planDetails }) => {
+const Payment = ({ clientSecret, planDetails, customAmountProp }) => {
     const stripe = useStripe();
     const elements = useElements();
-    const [customAmount, setCustomAmount] = useState(100);
+    // const [customAmount, setCustomAmount] = useState(100);
+    const [amount, setAmount] = useState(customAmountProp || planDetails.price * 100);
     const [billingDetails, setBillingDetails] = useState({
         name: '',
         email: '',
@@ -36,23 +37,20 @@ const Payment = ({ clientSecret, planDetails }) => {
             postal_code: ''
         }
     });
+    const isPayAsYouGo = planDetails.name === "Pay As You Go";
 
     const handleCustomAmountChange = (e) => {
-        const value = e.target.value;
-        const intValue = Math.floor(parseFloat(value) * 100); // Convert dollars to cents
-        if (!isNaN(intValue) && intValue >= 100) {
-            setCustomAmount(intValue);
-        }
+        let value = e.target.value;
+        value = Math.max(1, parseFloat(value));
+        setAmount(value * 100);
     };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        const amount = customAmount;
 
         if (name.includes('.')) {
             const parts = name.split('.');
             const [key, subkey] = parts;
-    
             setBillingDetails((prevDetails) => ({
                 ...prevDetails,
                 [key]: { ...prevDetails[key], [subkey]: value }
@@ -105,21 +103,12 @@ const Payment = ({ clientSecret, planDetails }) => {
             }
         }
     };
-
-    const isPayAsYouGo = (planName) => {
-        if (planName === 'Pay As You Go') {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
+    
     return (
         <section className='payment-section'>
             <div className='modal-body'>
-                {/* Plan details section */}
                 <div className='plan-details'>
-                    {
+                    {/* {
                         isPayAsYouGo(planDetails?.name) ? (
                             <>
                                 <h2>{planDetails?.name}</h2>
@@ -131,7 +120,7 @@ const Payment = ({ clientSecret, planDetails }) => {
                                 <p>Cost: ${planDetails?.price.toFixed(2)}</p>
                             </>
                             )                            
-                    }
+                    } */}
                     
                     <ul>
                         {planDetails?.benefits.map((benefit, index) => (
@@ -142,10 +131,8 @@ const Payment = ({ clientSecret, planDetails }) => {
                     <a>Minimum charged accepted is <p>$1.00</p></a> 
                 </div>
 
-                {/* Divider */}
                 <div className="divider"></div>
-
-                {/* Payment form section */}
+                
                 <div className='payment-details'>
                 <h2>Make Payment</h2>
                 <p style={{ paddingBottom: '10px' }}>Complete the payment and you are set!</p>
@@ -156,24 +143,26 @@ const Payment = ({ clientSecret, planDetails }) => {
                     <input type="text" name="address.city" placeholder="City" required onChange={handleInputChange} />
                     <input type="text" name="address.state" placeholder="State" required onChange={handleInputChange} />
                     <input type="text" name="address.postal_code" placeholder="Postal Code" required onChange={handleInputChange} />
-                    <div className="input-container">
-                        <span className='dollar-sign'>$</span>
-                        <input
-                            className='dollar-input'
-                            type="number"
-                            id="customAmount"
-                            placeholder="Custom Amount (min $1.00)"
-                            aria-label="Custome Amount"
-                            value={(customAmount / 100).toFixed(2)}
-                            min="1.00"
-                            step="0.50"
-                            onChange={handleCustomAmountChange}
-                            required
-                        />
-                    </div>
+                    {isPayAsYouGo && (
+                        <div className="input-container">
+                            <span className='dollar-sign'>$</span>
+                            <input
+                                className='dollar-input'
+                                type="number"
+                                id="customAmount"
+                                placeholder="Custom Amount (min $1.00)"
+                                aria-label="Custom Amount"
+                                value={(amount / 100).toFixed(2)}
+                                min="1.00"
+                                step="0.50"
+                                onChange={handleCustomAmountChange}
+                                required
+                            />
+                        </div>
+                    )}
                     <CardElement options={CARD_OPTIONS} />
                     <button type="submit" disabled={!stripe || !clientSecret} className="payment-button">
-                        Pay ${customAmount / 100}
+                        Pay ${amount / 100}
                     </button>
                 </form>
                 </div>

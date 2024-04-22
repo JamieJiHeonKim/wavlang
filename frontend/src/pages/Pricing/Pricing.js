@@ -10,8 +10,8 @@ import { jwtDecode } from 'jwt-decode';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
-// Task: Stripe integration testing
-// Task: Custom price input for Pay-As-You-Go plan
+// Task 1: Keep custom amount for Pay-As-You-Go only
+// Task 2: Implement regular subscription for monthly and annual
 
 const Modal = ({ isOpen, onClose, children }) => {
     if (!isOpen) return null;
@@ -31,6 +31,7 @@ const Pricing = () => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [selectedPlan, setSelectedPlan] = useState({});
     const [isVerified, setIsVerified] = useState(false);
+    const [selectedCustomAmount, setSelectedCustomAmount] = useState(100);
 
     let navigate = useNavigate();
     const handleLoginRedirect = () => {
@@ -41,7 +42,7 @@ const Pricing = () => {
         {
             id: "p1",
             name: "Pay As You Go",
-            price: 0.50,
+            price: 1.00,
             benefits: [
                 "Cheapest for Short Audio Files",
                 "Great Flexibility",
@@ -110,12 +111,21 @@ const Pricing = () => {
 
     const handlePayment = async (plan) => {
         const isAuth = await isAuthenticated();
+
         if (!isAuth) {
             setIsVerified(false);
-            setModalOpen(true);
+            // setModalOpen(true);
             return;
-        }
+        };
+
+        if (plan.name === "Pay As You Go") {
+            setSelectedCustomAmount(100);
+        } else {
+            setSelectedCustomAmount(null);
+        };
+
         const amount = Math.round(plan.price * 100);
+
         try {
             const response = await fetch('http://localhost:8080/api/stripe/create-payment-intent', {
                 method: 'POST',
@@ -243,7 +253,11 @@ const Pricing = () => {
                 {isVerified ? (
                     clientSecret && selectedPlan && (
                         <Elements stripe={stripePromise}>
-                            <Payment clientSecret={clientSecret} planDetails={selectedPlan} />
+                            <Payment 
+                                clientSecret={clientSecret} 
+                                planDetails={selectedPlan} 
+                                customAmount={selectedPlan.name === "Pay As You Go" ? selectedCustomAmount : undefined}
+                            />
                         </Elements>
                     )
                 ) : (

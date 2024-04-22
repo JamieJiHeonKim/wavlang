@@ -5,6 +5,9 @@ import './Contactus.scss';
 import ContactForm from '../../components/ContactForm/ContactForm';
 import Footer from '../../sections/Footer/Footer';
 
+// task 1: Contact us Jamie field is only accepting email
+// task 2: message doesn't get sent to email yet
+
 const Contactus = () => {
     return (
         <>
