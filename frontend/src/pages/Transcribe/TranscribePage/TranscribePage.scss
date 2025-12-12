@@ -26,7 +26,7 @@
     align-items: center;
 }
 
-main {
+.main-property {
     display: inline-block;
 }
 
@@ -49,5 +49,17 @@ main {
         font-weight: 700;
         margin-bottom: 10px;
     }
-    
+}
+
+.searchbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.p-searchbar {
+    text-align: center;
 }

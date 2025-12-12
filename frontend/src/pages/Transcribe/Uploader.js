@@ -21,19 +21,6 @@ function Uploader() {
             return;
         };
     }
-
-    // return (
-    //     <div className='output-field'>
-    //         <input 
-    //             type="file"
-    //             ref={inputRef}
-    //             accept=".mp3"
-    //             onChange={onChangeFile}
-    //             className='mp3-input'
-    //             sendDataToParent={inputRef}
-    //         />
-    //     </div>
-    // )
     
     return (
         <div>

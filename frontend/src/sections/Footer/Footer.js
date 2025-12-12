@@ -11,20 +11,20 @@ const Footer = () => {
 
     const footerMenu = [
         {
-            'name' : 'Transscribe',
-            'link' : '/transcribe'
+            'name' : 'Home',
+            'link' : '/'
         },
         {
-            'name' : 'Features',
-            'link' : '/features'
+            'name' : 'Transcribe',
+            'link' : '/transcribe'
         },
         {
             'name' : 'Pricing',
             'link' : '/pricing'
         },
         {
-            'name' : 'About',
-            'link' : '/about'
+            'name' : 'Updates',
+            'link' : '/updates'
         },
         {
             'name' : 'Contact Us',
@@ -74,7 +74,12 @@ const Footer = () => {
                             <p>Quick Links</p>
                             <ul>
                                 {
-                                    footerMenu.map(singleMenu => <li><Link to="/">{singleMenu.name}</Link></li>)
+                                    footerMenu.map((singleMenu, index) => (
+                                        <li key={`menu-item-${index}`}>
+                                            <Link to={singleMenu.link}>{singleMenu.name}</Link>
+                                        </li>
+                                    ))
+                                    // footerMenu.map(singleMenu => <li><Link to={singleMenu.link}>{singleMenu.name}</Link></li>)
                                 }
                             </ul>
                         </div>
@@ -84,17 +89,28 @@ const Footer = () => {
                             <p>Contact & Information</p>
 
                             {
-                                footerContacts.map(footerContact => {
-                                    return  <div className="contact-list">
-                                                <div className="contact-icon">
-                                                    <img src={footerContact.icon} alt="mail" />
-                                                </div>
-                                                <div className="contact-text">
-                                                    <p>{footerContact.title}</p>
-                                                    <h5>{footerContact.info}</h5>
-                                                </div>
-                                            </div>
-                                })
+                                footerContacts.map((footerContact, index) => (
+                                    <div className="contact-list" key={`contact-item-${index}`}>
+                                        <div className="contact-icon">
+                                            <img src={footerContact.icon} alt="icon" />
+                                        </div>
+                                        <div className="contact-text">
+                                            <p>{footerContact.title}</p>
+                                            <h5>{footerContact.info}</h5>
+                                        </div>
+                                    </div>
+                                ))
+                                // footerContacts.map(footerContact => {
+                                //     return  <div className="contact-list">
+                                //                 <div className="contact-icon">
+                                //                     <img src={footerContact.icon} alt="mail" />
+                                //                 </div>
+                                //                 <div className="contact-text">
+                                //                     <p>{footerContact.title}</p>
+                                //                     <h5>{footerContact.info}</h5>
+                                //                 </div>
+                                //             </div>
+                                // })
                             }
                         </div>
                     </div>
@@ -109,7 +125,7 @@ const Footer = () => {
                             <li><Link to='/'>Terms of Use</Link></li>
                             <li><Link to='/'>Privacy Policy</Link></li>
                         </ul>
-                    </div>                          
+                    </div>
                 </div>
             </div>
         </footer>

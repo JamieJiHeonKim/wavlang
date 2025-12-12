@@ -9,12 +9,12 @@ import Appointment from '../sections/Appointment/Appointment';
 const Services = () => {
     return (
         <>
-            <Navbar />
+            {/* <Navbar /> */}
             <ServiceBanner />
             <Symptoms />
             <Gallery />
             <Appointment />
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 };

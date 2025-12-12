@@ -10,13 +10,13 @@ import Footer from '../sections/Footer/Footer';
 const About = () => {
     return (
         <>
-            <Navbar />
+            {/* <Navbar /> */}
             <AboutBanner />
             <Priority />
-            <Safety />
-            <Team />
-            <Faq />
-            <Footer />
+            {/* <Safety /> */}
+            {/* <Team /> */}
+            {/* <Faq /> */}
+            {/* <Footer /> */}
         </>
     );
 };
