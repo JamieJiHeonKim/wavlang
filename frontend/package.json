@@ -70,6 +70,7 @@
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
     "sass": "^1.55.0",
+    "serve": "^14.2.1",
     "stripe": "^14.24.0",
     "wavesurfer.js": "^7.7.3",
     "web-vitals": "^2.1.4",
@@ -78,12 +79,13 @@
   },
   "scripts": {
     "start:backend": "nodemon server.js",
-    "start": "react-scripts start",
+    "start": "serve -s build",
+    "start:dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "nodemon server.js",
-    "client": "npm start",
+    "client": "npm run start:dev",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "eslintConfig": {
