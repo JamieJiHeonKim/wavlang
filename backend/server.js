@@ -323,9 +323,18 @@ const PORT = process.env.PORT || 8080;
 
 // MongoDB Connection
 mongoose.set("strictQuery", false);
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/WAVLANG';
+const MONGO_URI = process.env.MONGO_URI;
 
-mongoose.connect(MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
+// Validate required environment variables
+if (!MONGO_URI) {
+    console.error('❌ ERROR: MONGO_URI environment variable is required!');
+    console.error('Please set MONGO_URI in Railway environment variables.');
+    console.error('Example: mongodb+srv://user:pass@cluster.mongodb.net/dbname');
+    process.exit(1);
+}
+
+console.log('Connecting to MongoDB...');
+mongoose.connect(MONGO_URI)
 .then(() => {
     console.log('MongoDB connected successfully');
     app.listen(PORT, () => {
