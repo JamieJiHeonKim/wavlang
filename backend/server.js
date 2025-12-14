@@ -18,7 +18,7 @@ const stripeRoutes = require("./routes/StripeRoutes");
 
 require('dotenv').config()
 
-const apiKey = process.env.REACT_APP_ASSEMBLY_API_KEY;
+const apiKey = process.env.ASSEMBLY_API_KEY;
 const baseUrl = 'https://api.assemblyai.com/v2';
 const googleOAuthCliendId = process.env.GOOGLE_CLIENT_ID;
 const googleOAuthClientSecret = process.env.GOOGLE_CLIENT_SECRET;
@@ -32,7 +32,14 @@ const headers = {
 
 const app = express();
 
-app.use(cors());
+// Configure CORS
+const corsOptions = {
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    credentials: true,
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(fileUpload());
 
@@ -205,7 +212,7 @@ app.post('/api/transcribe_file', upload.single('file'), async (req, res) => {
         const config = {
             headers: {
                 "Content-Type": `multipart/form-data; charset=UTF-8; boundary=${formData._boundary}`,
-                "Authorization": `Bearer ${process.env.REACT_APP_API_KEY}`,
+                "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
             },
         };
 
@@ -257,7 +264,7 @@ app.post('/api/transcribe_whisperai', async (req, res) => {
             .post(whisper_url, req.files.file, {
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
+                    Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
                 },
             })
             .then((res) => {
@@ -283,10 +290,10 @@ app.post('/api/auth/google', async (req, res) => {
     const { code } = req.body;
     const client_id = googleOAuthCliendId;
     const client_secret = googleOAuthClientSecret;
-    const redirect_url = 'http://localhost:3000';
+    const redirect_url = process.env.FRONTEND_URL || 'http://localhost:3000';
     const grant_type = 'authorization_code';
 
-    fetch('<https://oauth2.googleapis.com/token>', {
+    fetch('https://oauth2.googleapis.com/token', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -296,7 +303,7 @@ app.post('/api/auth/google', async (req, res) => {
             client_id,
             client_secret,
             redirect_url,
-            grand_type,
+            grant_type,
         }),
     })
     .then(response => response.json())
@@ -313,18 +320,30 @@ app.post('/api/auth/google', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 8080;
-const MONGOOSE_URL = 'mongodb://localhost:27017/WAVLANG'
 
-// mongoose.set('useNewUrlParser', true);
+// MongoDB Connection
 mongoose.set("strictQuery", false);
-mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true})
+const MONGO_URI = process.env.MONGO_URI;
+
+// Validate required environment variables
+if (!MONGO_URI) {
+    console.error('❌ ERROR: MONGO_URI environment variable is required!');
+    console.error('Please set MONGO_URI in Railway environment variables.');
+    console.error('Example: mongodb+srv://user:pass@cluster.mongodb.net/dbname');
+    process.exit(1);
+}
+
+console.log('Connecting to MongoDB...');
+mongoose.connect(MONGO_URI)
 .then(() => {
-    app.listen(process.env.PORT, () => {
+    console.log('MongoDB connected successfully');
+    app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
     })
 })
 .catch((error) => {
-    console.log(error);
+    console.error('MongoDB connection error:', error);
+    process.exit(1);
 });
 
 // mongoose.createConnection(MONGOOSE_URL, {useNewUrlParser: true})

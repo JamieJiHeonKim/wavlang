@@ -1,7 +1,10 @@
 {
-  "name": "wavlang",
+  "name": "wavlang-frontend",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "proxy": "http://localhost:8080/",
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -79,7 +82,7 @@
   },
   "scripts": {
     "start:backend": "nodemon server.js",
-    "start": "serve -s build",
+    "start": "serve -s build -p ${PORT:-3000}",
     "start:dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
