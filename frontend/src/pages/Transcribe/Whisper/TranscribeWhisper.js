@@ -113,7 +113,7 @@ function TranscribeWhisper({file, topic, analysisType, analysisLanguage}) {
         console.log("abstract summary extraction is working");
         const key_points = await openai.chat.completions.create(
             {
-                model: "gpt-4-1106-preview",
+                model: "gpt-3.5-turbo",
                 temperature: 0,
                 messages: [
                     {
@@ -135,7 +135,7 @@ function TranscribeWhisper({file, topic, analysisType, analysisLanguage}) {
         console.log("key points is working");
         const key_points = await openai.chat.completions.create(
             {
-                model: "gpt-4-1106-preview",
+                model: "gpt-3.5-turbo",
                 temperature: 0,
                 messages: [
                     {
@@ -157,7 +157,7 @@ function TranscribeWhisper({file, topic, analysisType, analysisLanguage}) {
         console.log("action item extraction is working");
         const key_points = await openai.chat.completions.create(
             {
-                model: "gpt-4-1106-preview",
+                model: "gpt-3.5-turbo",
                 temperature: 0,
                 messages: [
                     {
@@ -179,7 +179,7 @@ function TranscribeWhisper({file, topic, analysisType, analysisLanguage}) {
         console.log("sentiment analysis is working");
         const key_points = await openai.chat.completions.create(
             {
-                model: "gpt-4-1106-preview",
+                model: "gpt-3.5-turbo",
                 temperature: 0,
                 messages: [
                     {
@@ -203,7 +203,7 @@ function TranscribeWhisper({file, topic, analysisType, analysisLanguage}) {
         console.log('topic:', topic);
         const res = await openai.chat.completions.create(
             {
-                model: "gpt-4-1106-preview",
+                model: "gpt-3.5-turbo",
                 temperature: 0,
                 messages: [
                     {
