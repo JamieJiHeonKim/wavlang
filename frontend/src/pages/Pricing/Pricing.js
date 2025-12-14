@@ -1,15 +1,16 @@
 import { React, useState, useEffect } from 'react';
 import './Pricing.scss';
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
-import Payment from './Payment';
+// import { loadStripe } from "@stripe/stripe-js";
+// import { Elements } from "@stripe/react-stripe-js";
+// import Payment from './Payment';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { API_BASE_URL } from '../../config';
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+// Stripe disabled - uncomment to enable payment processing
+// const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 // Task 1: Keep custom amount for Pay-As-You-Go only
 // Task 2: Implement regular subscription for monthly and annual
@@ -111,6 +112,11 @@ const Pricing = () => {
     };
 
     const handlePayment = async (plan) => {
+        // Payment processing disabled - Stripe not configured
+        alert('Payment processing is currently disabled. Contact support to enable payments.');
+        return;
+        
+        /* Uncomment to enable Stripe payments:
         const isAuth = await isAuthenticated();
 
         if (!isAuth) {
@@ -147,6 +153,7 @@ const Pricing = () => {
         } catch (error) {
             console.error('Error:', error);
         }
+        */
     };
     
     const handleCloseModal = () => setModalOpen(false);
@@ -251,6 +258,13 @@ const Pricing = () => {
                 </div>
             </div>
             <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+                <div className='payment-disabled-message'>
+                    <h2>Payment Processing Disabled</h2>
+                    <p>Stripe payment integration is currently disabled.</p>
+                    <p>To enable payments, configure your Stripe keys in the environment variables.</p>
+                    <button onClick={handleCloseModal} className='login-btn'>Close</button>
+                </div>
+                {/* Uncomment to enable Stripe payments:
                 {isVerified ? (
                     clientSecret && selectedPlan && (
                         <Elements stripe={stripePromise}>
@@ -268,6 +282,7 @@ const Pricing = () => {
                         <button onClick={handleLoginRedirect} className='login-btn'>Go to Login Page</button>
                     </div>
                 )}
+                */}
             </Modal>
         </section>
     );
