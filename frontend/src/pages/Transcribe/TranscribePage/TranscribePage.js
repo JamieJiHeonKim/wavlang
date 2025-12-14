@@ -8,6 +8,9 @@ import Analysis from '../Analysis/Analysis';
 import Alert from 'react-bootstrap/Alert';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import LoggedOutTranscribePage from '../TranscribePage/LoggedOutTranscribePage';
+import { useAuth } from '../../../components/AuthContext/AuthContext';
+import Cookies from 'js-cookie';
 
 const languages = [
     {
@@ -252,6 +255,7 @@ function TranscribePage() {
     const [topic, setTopic] = useState(null);
     const [confirmation, setConfirmation] = useState(false);
     const [analysisLanguage, setAnalysisLanguage] = useState('English');
+    const { isLoggedIn } = useAuth();
 
     // props DropFileInput
     const onFileChange = (file) => {
@@ -321,6 +325,7 @@ function TranscribePage() {
     }
     
     useEffect(() => {
+        console.log("Authentication state changed. isLoggedIn:", isLoggedIn);
         setConfirmation(false);
         const unloadCallback = (event) => {
             event.preventDefault();
@@ -330,7 +335,7 @@ function TranscribePage() {
         
           window.addEventListener("beforeunload", unloadCallback);
           return () => window.removeEventListener("beforeunload", unloadCallback);
-    }, [file, confirmation]);
+    }, [file, confirmation, isLoggedIn]);
     
     return (
         <section className='transcribe-section' >
@@ -354,7 +359,17 @@ function TranscribePage() {
                             />
                         </div>
                     { fileUploaded ? <AudioPlayer file={URL.createObjectURL(file)} fileName={file.name} /> : <></> }
-                    <button type="submit" className="btn appointment-btn" onClick={handleTranscribeButton}>
+                    {!isLoggedIn && (
+                        <Alert variant="warning" className="login-alert">
+                            You must be logged in to use the transcription feature.
+                        </Alert>
+                    )}
+                    <button
+                        type="submit"
+                        className="btn appointment-btn"
+                        onClick={handleTranscribeButton}
+                        disabled={!isLoggedIn} // Disable button if not logged in
+                    >
                         Transcribe
                     </button>
                     {/* { file ? handleOverSizeFile(file) : null} */}

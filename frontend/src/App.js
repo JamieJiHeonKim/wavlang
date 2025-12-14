@@ -22,6 +22,7 @@ import BarPage from './pages/Dashboard/Components/Bar/Bar';
 import PiePage from './pages/Dashboard/Components/Pie/Pie';
 import LinePage from './pages/Dashboard/Components/Line/Line';
 import GeographyPage from './pages/Dashboard/Components/Geography/Geography';
+import SettingsPage from './pages/SettingsPage';
 import Layout from './components/Layout';
 import { AuthProvider } from './components/AuthContext/AuthContext';
 
@@ -54,6 +55,7 @@ function App() {
           <Route path='pie' element={<PiePage />} />
           <Route path='line' element={<LinePage />} />
           <Route path='geography' element={<GeographyPage />} />
+          <Route path='settings' element={<SettingsPage />} />
         </Route>
       </Routes>
     </AuthProvider>

@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }) => {
             if (!userToken || !userEmail) {
                 setIsLoggedIn(false);
                 setUser(null);
-                console.log('nononono');
             }
             try {
                 console.log("userToken:", userToken);

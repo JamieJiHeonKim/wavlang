@@ -114,7 +114,7 @@ const Pricing = () => {
 
         if (!isAuth) {
             setIsVerified(false);
-            // setModalOpen(true);
+            setModalOpen(true);
             return;
         };
 

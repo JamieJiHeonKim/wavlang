@@ -128,7 +128,7 @@ const Navbar = () => {
                                     {isDropdownOpen && (
                                     <div className="account-dropdown">
                                         <button onClick={() => navigate("/dashboard/user")} className="theme-btn">
-                                        Profile
+                                        Dashboard
                                         </button>
                                         <button onClick={handleLogOut} className="theme-btn logout-btn">
                                         Log Out
