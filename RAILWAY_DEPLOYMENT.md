@@ -12,7 +12,7 @@ This project has both backend and frontend in the same repository. You need to d
 1. Go to [Railway Dashboard](https://railway.app/dashboard)
 2. Click **"New Project"** → **"Deploy from GitHub repo"**
 3. Select your `wavlang` repository
-4. After deployment fails, go to **Settings**
+4. Go to **Settings** → **Variables**
 5. Add these **Environment Variables**:
    ```
    ROOT_DIRECTORY=backend
@@ -28,7 +28,11 @@ This project has both backend and frontend in the same repository. You need to d
    MAILTRAP_PASSWORD=your_mailtrap_password
    CLIENT_URL=https://your-frontend-url.railway.app
    ```
-6. **Redeploy** - it should work now!
+6. Go to **Settings** → **Build**
+7. Set **Install Command**: `npm install`
+8. Set **Build Command**: (leave empty)
+9. Set **Start Command**: `node server.js`
+10. **Redeploy** - it should work now!
 
 ### Deploy Frontend
 
@@ -51,21 +55,35 @@ This project has both backend and frontend in the same repository. You need to d
 
 ---
 
-## 🚂 Method 2: Using Railway Settings
+## 🚂 Method 2: Manual Configuration (Alternative)
 
 ### For Backend Service:
 
-In Railway Dashboard → Settings → Build:
-- **Build Command**: `cd backend && npm install`
-- **Start Command**: `cd backend && npm start`
-- **Watch Paths**: `/backend/**`
+In Railway Dashboard → Settings:
+
+1. **Variables** tab:
+   - Add `ROOT_DIRECTORY=backend`
+   - Add all other backend environment variables
+
+2. **Settings** → **Deploy** tab:
+   - **Install Command**: `npm install`
+   - **Build Command**: (leave empty)
+   - **Start Command**: `node server.js`
+   - **Watch Paths**: `/backend/**`
 
 ### For Frontend Service:
 
-In Railway Dashboard → Settings → Build:
-- **Build Command**: `cd frontend && npm ci && npm run build`
-- **Start Command**: `cd frontend && npm start`
-- **Watch Paths**: `/frontend/**`
+In Railway Dashboard → Settings:
+
+1. **Variables** tab:
+   - Add `ROOT_DIRECTORY=frontend`
+   - Add all other frontend environment variables
+
+2. **Settings** → **Deploy** tab:
+   - **Install Command**: `npm install`
+   - **Build Command**: `npm run build`
+   - **Start Command**: `npm start`
+   - **Watch Paths**: `/frontend/**`
 
 ---
 
