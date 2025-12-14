@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Alert } from '@mui/material';
 import googleIcon from '../../assets/google.png';
+import { API_BASE_URL } from '../../config';
 
 const ForgotPassword = () => {
     const location = useLocation();
@@ -30,7 +31,7 @@ const ForgotPassword = () => {
         try{
             setIsResponseReady(false);
             const res = await axios
-                .post("http://localhost:8080/api/forgot-password", {
+                .post(`${API_BASE_URL}/api/forgot-password`, {
                     email: emailInput
                 }, {
                     headers: {

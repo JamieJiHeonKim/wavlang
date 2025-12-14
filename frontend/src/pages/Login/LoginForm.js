@@ -15,6 +15,7 @@ import googleIcon from '../../assets/google.png';
 import Cookies from 'js-cookie';
 import { useCookies } from 'react-cookie';
 import { useAuth } from '../../components/AuthContext/AuthContext';
+import { API_BASE_URL } from '../../config';
 
 const LoginForm = () => {
     const location = useLocation();
@@ -57,7 +58,7 @@ const LoginForm = () => {
         try{
             setNotVerified(false);
             const res = await axios
-                .post("http://localhost:8080/api/signin", {
+                .post(`${API_BASE_URL}/api/signin`, {
                     email: emailInput,
                     password: passwordInput
                 }, {

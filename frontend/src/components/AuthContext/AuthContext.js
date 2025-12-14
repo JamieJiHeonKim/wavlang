@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, useEffect, useMemo } from '
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
+import { API_BASE_URL } from '../../config';
 
 export const AuthContext = createContext(null);
 
@@ -29,7 +30,7 @@ export const AuthProvider = ({ children }) => {
                 const decoded = jwtDecode(userToken);
                 console.log('decoded:', decoded);
                 console.log('email:', userEmail);
-                const response = await axios.get('http://localhost:8080/api/user/authenticated', {
+                const response = await axios.get(`${API_BASE_URL}/api/user/authenticated`, {
                     headers: { 
                         'x-access-token': decoded.userId,
                         'email': userEmail

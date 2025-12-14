@@ -9,8 +9,9 @@ import CheckIcon from '@mui/icons-material/Check';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import OTPInput from 'react-otp-input';
+import { API_URL } from '../../config';
 
-const baseUrl = 'http://localhost:8080/api/';
+const baseUrl = `${API_URL}/`;
 
 const VerifyEmail = () => {
     const location = useLocation();
