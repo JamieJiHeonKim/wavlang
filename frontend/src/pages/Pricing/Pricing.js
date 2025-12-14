@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import { API_BASE_URL } from '../../config';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
@@ -89,7 +90,7 @@ const Pricing = () => {
         }
         try {
             const decoded = jwtDecode(userToken);
-            const res = await axios.get(`http://localhost:8080/api/user/authenticated`, {
+            const res = await axios.get(`${API_BASE_URL}/api/user/authenticated`, {
                 headers: { 
                     'x-access-token': decoded.userId,
                     'email': userEmail
@@ -127,7 +128,7 @@ const Pricing = () => {
         const amount = Math.round(plan.price * 100);
 
         try {
-            const response = await fetch('http://localhost:8080/api/stripe/create-payment-intent', {
+            const response = await fetch(`${API_BASE_URL}/api/stripe/create-payment-intent`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

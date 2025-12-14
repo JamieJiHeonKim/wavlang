@@ -14,8 +14,9 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { Alert } from '@mui/material';
+import { API_BASE_URL } from '../../config';
 
-const baseUrl = 'http://localhost:8080/api/user';
+const baseUrl = `${API_BASE_URL}/api/user`;
 
 const FormRulesDialog = ({ open, onClose }) => {
     return (

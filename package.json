@@ -1,5 +1,21 @@
 {
+  "name": "wavlang",
+  "version": "1.0.0",
+  "description": "Transcription Service",
+  "scripts": {
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "install:all": "npm run install:backend && npm run install:frontend",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm start",
+    "build:frontend": "cd frontend && npm run build",
+    "start": "cd backend && npm start",
+    "dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+  },
   "dependencies": {
     "js-cookie": "^3.0.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

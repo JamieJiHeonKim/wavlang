@@ -2,6 +2,7 @@ import { React, useEffect, useState } from 'react';
 import axios from 'axios';
 import OpenAI from 'openai';
 import { Puff, Bars, Circles, Rings, SpinningCircles, Audio, BallTriangle, Grid, Hearts, Oval, TailSpin, ThreeDots } from 'react-loading-icons';
+import { API_BASE_URL } from '../../../config';
 
 const apiKey = process.env.REACT_APP_ASSEMBLY_API_KEY;
 
@@ -31,7 +32,7 @@ function TranscribeAssemblyAI({file, topic, analysisType, analysisLanguage}) {
         const formData = new FormData();
         formData.append('audioFile', file);
         try {
-            const response = await fetch(`http://localhost:8080/api/transcribe_assemblyai`, {
+            const response = await fetch(`${API_BASE_URL}/api/transcribe_assemblyai`, {
                 method: 'POST',
                 body: formData
             });

@@ -12,6 +12,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
+import { API_BASE_URL } from '../../config';
 
 const MESSAGE_TYPES = {
     FORM_RULES: 'formRules',
@@ -207,7 +208,7 @@ const Signup = () => {
                 "email": userEmail,
                 "password": obj.password
             };
-            const { data } = await axios.post("http://localhost:8080/api/new_user", user, {
+            const { data } = await axios.post(`${API_BASE_URL}/api/new_user`, user, {
                 headers: {
                     "Content-Type": "application/json",
                 },
